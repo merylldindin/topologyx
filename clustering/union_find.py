@@ -2,7 +2,7 @@
 # Date: 26/06/2018
 # Project: TDAToolbox
 
-from package.imports import *
+from clustering.imports import *
 
 # Credits
 # http://code.activestate.com/recipes/215912-union-find-data-structure/

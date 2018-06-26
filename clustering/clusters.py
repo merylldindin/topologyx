@@ -2,7 +2,7 @@
 # Date: 26/06/2018
 # Project: TDAToolbox
 
-from package.union_find import *
+from clustering.union_find import *
 
 # Defines a class aimed at generating samples for clustering
 
@@ -159,9 +159,10 @@ class ToMaTo:
 
     # Find the clusters and their centroids
     # num_clusters refers to the guessed number of clusters
+    # tau is the limitation for one cluster to be merged into another
     # neighbors refers to the neighboring graph of each element
     # graph is a boolean for data visualization
-    def fit_predict(self, num_clusters=None, neighbors=6, graph=False):
+    def fit_predict(self, num_clusters=None, tau=1e-2, neighbors=6, graph=False):
 
         if not hasattr(self, 'sxt'): self.estimate_clusters(neighbors=neighbors, graph=graph)
 
@@ -187,7 +188,7 @@ class ToMaTo:
                     unf.union(parent, idx)
                     for ele in grp:
                         root = unf.find(ele)
-                        if root != parent:
+                        if root != parent and min(fil[parent], fil[root]) < fil[idx] + tau:
                             unf.union(parent, root)
                             parent = unf.find(root)
 
