@@ -1,0 +1,5 @@
+plotly==2.7.0
+matplotlib==2.2.2
+scipy==1.1.0
+numpy==1.14.5
+scikit_learn==0.19.1
