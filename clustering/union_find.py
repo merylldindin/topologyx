@@ -1,6 +1,6 @@
-# Author: DINDIN Meryll
-# Date: 26/06/2018
-# Project: TDAToolbox
+# Author:  DINDIN Meryll
+# Date:    26/06/2018
+# Project: clustering
 
 from clustering.imports import *
 
