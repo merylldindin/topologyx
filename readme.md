@@ -1,5 +1,7 @@
 # TdaToolbox 
 
+![LOGO](./figures/header.png)
+
 ## Introduction
 
 Topological Data Analysis, also abbreviated *TDA*, is a recent field that emerged from various works in applied topology and computational geometry. It aims at providing well-founded mathematical, statistical and algorithmic methods to exploit the topological and underlying geometric structures in data. My aim is to develop some tools in this repository, that may be applied to data science in general. Some of them already proved useful for classification tasks.
