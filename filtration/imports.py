@@ -1,9 +1,10 @@
-# Author: DINDIN Meryll
-# Date: 26/06/2018
-# Project: TDAToolbox
+# Author:  DINDIN Meryll
+# Date:    26/06/2018
+# Project: TdaToolbox
 
+# Common packages
 import sys
-
+import tqdm
 import numpy as np
 
 from sklearn.neighbors import KDTree
@@ -19,9 +20,6 @@ except:
     print('[###] Visual packages could not be imported ...')
 
 try: 
-    gpath = '2018-01-31-09-25-53_GUDHI_2.1.0/build/cython'
-    build = '/home/intern/Downloads/{}'.format(gpath)
-    sys.path.append(build)
     import gudhi
 except:
     print('[###] Gudhi could not be imported ...')

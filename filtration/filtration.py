@@ -1,8 +1,9 @@
-# Author: DINDIN Meryll
-# Date: 27/06/2018
-# Project: TDAToolbox
+# Author:  DINDIN Meryll
+# Date:    26/06/2018
+# Project: TdaToolbox
 
-from filtration.toolbox import *
+try: from filtration.utils import *
+except: from utils import *
 
 # Computes associated persistent objects
 
@@ -10,142 +11,206 @@ class Filtration:
 
     # Initialisation
     # vec refers to the multidimensional input vector
-    def __init__(self, vec):
+    def __init__(self, vec, leaf_size=30):
 
-        # Dimension for simplex construction
         self.vec = vec
+        # KDTree for easy access
+        self.kdt = KDTree(self.vec, leaf_size=leaf_size, metric='euclidean')
         # Creates the complex
-        self.alpha = gudhi.AlphaComplex(points=self.vec)
-        self.alpha = self.alpha.create_simplex_tree(max_alpha_square=250.0)
+        self.fil = gudhi.AlphaComplex(points=self.vec)
+        self.fil = self.fil.create_simplex_tree(max_alpha_square=250.0)
 
     # Computes the corresponding vertexes
     # neighbors refers to the amount of corresponding neighbors in the graph
     def vertexes(self, neighbors):
 
-        # Defines the neighboring graph
-        kdt = KDTree(self.vec, leaf_size=30, metric='euclidean')
-        tmp = np.square(kdt.query(self.vec, neighbors, return_distance=True)[0])
-
+        tmp = np.square(self.kdt.query(self.vec, neighbors, return_distance=True)[0])
         return np.sqrt(np.sum(tmp, axis=1) / neighbors)
 
     # Sublevel filtration
     # neighbors refers to the amount of corresponding neighbors in the graph
-    def apply_filtration(self, neighbors=5):
+    def sub_filtration(self, neighbors=5):
 
         # Defines the filtration
         fil = gudhi.SimplexTree()
         vtx = self.vertexes(neighbors)
-        r_f = self.alpha.get_filtration()
+        r_f = self.fil.get_filtration()
 
         # Apply incremental filtration
-        for ele in r_f:
-            val = max(ele[1], max([vtx[i] for i in ele[0]]))
-            fil.insert(ele[0], filtration=val)
+        for spx in r_f:
+            fil.insert(spx[0], filtration=max(spx[1], max([vtx[i] for i in spx[0]])))
+
+        # Memory efficiency
+        del vtx, r_f
         # Save as attribute
         fil.set_dimension(self.vec.shape[1])
         fil.initialize_filtration()
-        self.alpha = fil
+        fil.persistence()
+        
+        return fil
+
+    # DTM filtration thanks to the Rips algorithm
+    def dtm_filtration(self, neighbors=5, divisions=5) :
+
+        # Defines the filtration
+        fil = gudhi.SimplexTree()
+        vtx = self.vertexes(neighbors)
+        r_f = self.fil.get_filtration()
+
+        # Defines the maximum value of the DTM discretization of a segment
+        def max_segment(p, q, divisions, neighbors) :
+
+            stp = (q - p) / float(divisions)
+            dim = len(p)
+            pts = np.zeros((divisions+1, dim))
+            for i in range(divisions) : pts[i,:] = p + i*stp
+            pts[divisions, :] = q
+            
+            return max(self.DTM(pts, neighbors))
+
+        # Defines the maximum value of the DTM discretization of a triangle
+        def max_triangle(p, q, r, divisions, neighbors) :
+
+            pts = []
+            for alpha in range(divisions):
+                for beta in range(divisions - alpha):
+                    gamma = divisions - alpha - beta
+                    pts.append((alpha*p + beta*q + gamma*r) / float(divisions))
+                    pts.append(p)
+                    pts.append(q)
+                    pts.append(r)
+
+            return max(self.DTM(np.asarray(pts), neighbors))
+
+        # Create the filtration
+        for spx in r_f :
+
+            if len(spx[0]) == 1 : 
+                fil.insert(spx[0], filtration=vtx[spx[0][0]])
+            elif len(spx[0]) == 2 : 
+                val = self.max_segment(self.vec[spx[0][0], :], self.vec[spx[0][1], :], divisions, neighbors)
+                fil.insert(spx[0], filtration=val)
+            elif len(spx[0]) == 3 :
+                val = self.max_triangle(self.vec[spx[0][0], :], self.vec[spx[0][1], :], self.vec[spx[0][2], :], divisions, neighbors)
+                fil.insert(spx[0], filtration=val)
 
         # Memory efficiency
-        del fil, vtx, r_f
+        del vtx, r_f
+        # Initialize the filtration
+        fil.set_dimension(self.vec.shape[1])
+        fil.initialize_filtration()
+        fil.persistence()
+
+        return fil
 
     # Compute the graph persistence
-    def compute_persistence(self):
+    # format refers to the type of persistence to be computed
+    # dimension refers to dimension focus and diagram extraction
+    def persistence(self, format, dimension):
 
-        self.apply_filtration()
-        self.alpha.persistence()
+        if format == 'alpha': self.fil.persistence()
+        if format == 'sublevel': self.fil = self.sub_filtration()
+        if format == 'dtm': self.fil = self.dtm_filtration()
+
+        self.fil = self.fil.persistence_intervals_in_dimension(dimension)
+        self.fil = np.asarray([[ele[0], ele[1]] for ele in self.fil if ele[1] < np.inf])
 
     # Defines the Betti curves out of the barcode diagrams
-    # dimension refers to dimension focus and diagram extraction
     # m_n, m_x refer to the minimal value for discretization
     # num_points refers to the amount of points to get as output
-    # graph refers whether to display a graph or not
-    def betti_curves(self, dimension, m_n=None, m_x=None, num_points=100, graph=False):
+    def betti_curve(self, m_n=None, m_x=None, num_points=100):
 
         # Aims at barcode discretization
         def functionize(val, descriptor):
 
-            # Temporary function
             def dirichlet(x):
                 return 1 if (x > descriptor[0]) and (x < descriptor[1]) else 0
-
-            # Vectorized function
-            fun = np.vectorize(dirichlet)
-
-            return fun(val)
+    
+            return np.vectorize(dirichlet)(val)
 
         # Compute persistence
         res = np.zeros(num_points)
-        dig = self.alpha.persistence_intervals_in_dimension(dimension)
-        dig = np.asarray([[ele[0], ele[1]] for ele in dig if ele[1] < np.inf])
-
-        if m_n and m_x: 
-            val = np.linspace(m_n, m_x, num=num_points)
-        else:
-            m_n, m_x = np.min(dig), np.max(dig)
-            val = np.linspace(m_n, m_x, num=num_points)
-
-        for ele in dig: res += functionize(val, ele)
-
+        if m_n is None: m_n = np.min(self.fil)
+        if m_x is None: m_x = np.max(self.fil)
+        val = np.linspace(m_n, m_x, num=num_points)
+        for ele in self.fil: res += functionize(val, ele)
         # Memory efficiency
-        del dig, val
-
-        if graph:
-            plt.figure(figsize=(18,2))
-            plt.plot(res, label='Sublevel Filtration - Betti Curve')
-            plt.legend(loc='best')
-            plt.show()
+        del val
 
         return res
 
     # Defines the persistent landscapes of the diagrams
-    # dimension refers to dimension focus and diagram extraction
     # m_n, m_x refer to the minimal value for discretization
     # nb_landscapes refers to the amount of landscapes to build
     # num_points refers to the amount of points to get as output
-    # graph refers whether to display a graph or not
-    def landscapes(self, dimension, m_n=None, m_x=None, nb_landscapes=10, num_points=100, graph=False):
+    def landscapes(self, m_n=None, m_x=None, nb_landscapes=10, num_points=100):
 
-        # Automated construction of the landscapes
-        # n_landscapes refers to the amount of landscapes to build
-        # num_points refers to the amount of points to get as output
-        # m_n, m_x refer to the extrema for discretization
-        def build_landscapes(dig, nb_landscapes, num_points, m_n, m_x):
+        # Prepares the discretization
+        ldc = np.zeros((nb_landscapes, num_points))
+        if m_n is None: m_n = np.min(self.fil)
+        if m_x is None: m_x = np.max(self.fil)
+        stp = np.linspace(m_n, m_x, num=num_points)
 
-            # Prepares the discretization
-            lcd = np.zeros((nb_landscapes, num_points))
+        # Use the triangular functions
+        for idx, ele in enumerate(stp):
+            val = []
+            for pair in self.fil:
+                b, d = pair[0], pair[1]
+                if (d+b)/2.0 <= ele <= d: val.append(d - ele)
+                elif  b <= ele <= (d+b)/2.0: val.append(ele - b)
+            val.sort(reverse=True)
+            val = np.asarray(val)
+            for j in range(nb_landscapes):
+                if (j < len(val)): ldc[j, idx] = val[j]
+            del val
 
-            # Observe whether absolute or relative
-            if m_n and m_x:
-                stp = np.linspace(m_n, m_x, num=num_points)
-            else:
-                m_n, m_x = np.min(dig), np.max(dig)
-                stp = np.linspace(m_n, m_x, num=num_points)
+        # Memory efficiency
+        del stp
 
-            # Use the triangular functions
-            for idx, ele in enumerate(stp):
-                val = []
-                for pair in dig:
-                    b, d = pair[0], pair[1]
-                    if (d+b)/2.0 <= ele <= d: val.append(d - ele)
-                    elif  b <= ele <= (d+b)/2.0: val.append(ele - b)
-                val.sort(reverse=True)
-                val = np.asarray(val)
-                for j in range(nb_landscapes):
-                    if (j < len(val)): lcd[j, idx] = val[j]
+        return ldc
 
-            return lcd
-        
-        # Computes the persistent landscapes for both diagrams
-        dig = self.alpha.persistence_intervals_in_dimension(dimension)
-        dig = np.asarray([[ele[0], ele[1]] for ele in dig if ele[1] < np.inf])
-        ldc = build_landscapes(dig, nb_landscapes, num_points, m_n, m_x)
+    # Build a persistence image out of a dimension-specific diagram
+    # m_n is a tuple refering to the extremas of the x-axis
+    # m_x is a tuple refering to the extremas of the y-axis
+    # image_size refers to the number of pixels to be consituting the image
+    def imagify(self, m_n=None, m_x=None, image_size=(32, 32)):
 
-        # Display landscapes if necessary
-        if graph:
-            plt.figure(figsize=(18,2))
-            plt.title('Persistent Landscapes')
-            for ele in ldc: plt.plot(ele)
-            plt.show()
+        dig = self.fil.copy()
+        img = np.zeros(image_size)
+        dig[:,1] = dig[:,1] - np.sum(dig, axis=1)/2
+        if m_n is None: mnx, mxx = np.min(dig[:,0]), np.max(dig[:,0])
+        else: mnx, mxx = m_n
+        if m_x is None: mny, mxy = np.min(dig[:,1]), np.max(dig[:,1])
+        else: mny, mxy = m_x
 
-        return ldc        
+        def weight(point, extrema):
+
+            if point[1] <= 0: return 0
+            else: return point[1] / extrema
+
+        def gaussian_value(point, mean, var):
+
+            coe = 1.0 / (2*np.pi*var)
+            com = np.exp(-(np.square(point[0]-mean[0])+np.square(point[1]-mean[1]))/(2*var))
+
+            return coe*com
+
+        def gaussian_kernel(point, mnx, mxx, mny, mxy, image_size, var=1e-8):
+
+            # Discretization
+            x = np.linspace(mnx, mxx, image_size[0])
+            y = np.linspace(mny, mxy, image_size[1])
+            img = np.zeros(image_size)
+
+            # Value filling
+            for i in range(len(x)):
+                for j in range(len(y)):
+                    val = gaussian_value([x[i], y[j]] , point, var)
+                    val = val * weight(point, mxy)
+                    img[len(y)-1-j, i] = val
+
+            return img
+
+        for point in dig: img += gaussian_kernel(point, mnx, mxx, mny, mxy, image_size)
+
+        return img
