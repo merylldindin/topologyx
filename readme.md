@@ -1,6 +1,6 @@
 # TdaToolbox 
 
-![LOGO](./figures/header.png)
+![LOGO](./figures/header.jpg)
 
 ## Introduction
 
