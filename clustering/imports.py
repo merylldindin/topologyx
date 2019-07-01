@@ -5,7 +5,11 @@
 import sys
 import numpy as np
 
+from sklearn.datasets import make_blobs
+from sklearn.datasets import make_moons
+from sklearn.datasets import make_circles
 from sklearn.neighbors import KDTree
+from scipy.stats import gaussian_kde as kde
 
 try:
 	import matplotlib.pyplot as plt

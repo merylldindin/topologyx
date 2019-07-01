@@ -66,7 +66,7 @@ class ToMaTo:
     def estimate_density(self, nbins=100, graph=False):
 
         x,y = self.x.T
-        den = kde.gaussian_kde(self.x.T)
+        den = kde(self.x.T)
         vec = den(np.vstack([x, y]))
 
         if graph:
@@ -138,9 +138,12 @@ class ToMaTo:
             nei = self.kdt.query([self.x[ind]], neighbors, return_distance=False)[0][1:]
             for idx in nei:
                 self.sxt.insert([ind, idx], filtration=np.mean([-vec[ind], -vec[idx]]))
-
+                
+        print('Tree filled')
         self.sxt.initialize_filtration()
+        print('Filtration initialized')
         self.sxt.persistence()
+        print('Persistence computed')
 
         if graph:
 
