@@ -1,3 +1,14 @@
+# Author:  DINDIN Meryll
+# Date:    27/08/2019
+# Project: optimizers
+
+# Compiled files
+bin/
+lib/
+etc/
+share/
+include/
+
 # Compiled files
 .ipynb_checkpoints/
 clustering/__pycache__/
