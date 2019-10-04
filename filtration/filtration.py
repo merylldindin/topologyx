@@ -11,14 +11,27 @@ class Filtration:
 
     # Initialisation
     # vec refers to the multidimensional input vector
-    def __init__(self, vec, leaf_size=30):
+    # use_alpha refers whether to use an AlphaComplex or not
+    # leaf_size refers to the size of the KDTree to be used
+    def __init__(self, vec, use_alpha=True, leaf_size=30):
 
         self.vec = vec
         # KDTree for easy access
         self.kdt = KDTree(self.vec, leaf_size=leaf_size, metric='euclidean')
+
         # Creates the complex
-        self.fil = gudhi.AlphaComplex(points=self.vec)
-        self.fil = self.fil.create_simplex_tree(max_alpha_square=250.0)
+        if use_alpha:
+            self.fil = gudhi.AlphaComplex(points=self.vec)
+            self.fil = self.fil.create_simplex_tree(max_alpha_square=250.0)
+        else:
+            self.fil = gudhi.SimplexTree()
+            # Insert elements
+            for ind in range(len(vec)):
+                self.fil.insert([ind], filtration=-vec[ind,2])
+                nei = self.kdt.query([vec[ind,:]], 5, return_distance=False)[0][1:]
+                for idx in nei: self.fil.insert([ind, idx], filtration=np.mean([-vec[ind,2], -vec[idx,2]]))
+            # Initialize the filtration
+            self.fil.initialize_filtration()
 
     # Computes the corresponding vertexes
     # neighbors refers to the amount of corresponding neighbors in the graph
@@ -106,11 +119,12 @@ class Filtration:
     # Compute the graph persistence
     # format refers to the type of persistence to be computed
     # dimension refers to dimension focus and diagram extraction
-    def persistence(self, format, dimension):
+    def persistence(self, persistence_type='simple', dimension=0):
 
-        if format == 'alpha': self.fil.persistence()
-        if format == 'sublevel': self.fil = self.sub_filtration()
-        if format == 'dtm': self.fil = self.dtm_filtration()
+        if persistence_type == 'simple': self.fil.persistence()
+        if persistence_type == 'alpha': self.fil.persistence()
+        if persistence_type == 'sublevel': self.fil = self.sub_filtration()
+        if persistence_type == 'dtm': self.fil = self.dtm_filtration()
 
         self.fil = self.fil.persistence_intervals_in_dimension(dimension)
         self.fil = np.asarray([[ele[0], ele[1]] for ele in self.fil if ele[1] < np.inf])
@@ -173,7 +187,8 @@ class Filtration:
     # m_n is a tuple refering to the extremas of the x-axis
     # m_x is a tuple refering to the extremas of the y-axis
     # image_size refers to the number of pixels to be consituting the image
-    def imagify(self, m_n=None, m_x=None, image_size=(32, 32)):
+    # variance refers to the gaussian dispersion
+    def imagify(self, m_n=None, m_x=None, image_size=(32, 32), variance=1e-8):
 
         dig = self.fil.copy()
         img = np.zeros(image_size)
@@ -211,6 +226,6 @@ class Filtration:
 
             return img
 
-        for point in dig: img += gaussian_kernel(point, mnx, mxx, mny, mxy, image_size)
+        for point in dig: img += gaussian_kernel(point, mnx, mxx, mny, mxy, image_size, var=variance)
 
         return img
