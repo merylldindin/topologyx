@@ -139,11 +139,8 @@ class ToMaTo:
             for idx in nei:
                 self.sxt.insert([ind, idx], filtration=np.mean([-vec[ind], -vec[idx]]))
                 
-        print('Tree filled')
         self.sxt.initialize_filtration()
-        print('Filtration initialized')
         self.sxt.persistence()
-        print('Persistence computed')
 
         if graph:
 
