@@ -26,10 +26,21 @@ class Filtration:
         else:
             self.fil = gudhi.SimplexTree()
             # Insert elements
-            for ind in range(len(vec)):
-                self.fil.insert([ind], filtration=-vec[ind,2])
-                nei = self.kdt.query([vec[ind,:]], 5, return_distance=False)[0][1:]
-                for idx in nei: self.fil.insert([ind, idx], filtration=np.mean([-vec[ind,2], -vec[idx,2]]))
+            if vec.shape[1] == 1:
+                for i in np.arange(len(vec)): 
+                    self.fil.insert([i], filtration=vec[i])
+                for i in np.arange(len(vec)-1): 
+                    self.fil.insert([i, i+1], filtration=vec[i])
+            if vec.shape[1] == 2:
+                for ind in range(len(vec)):
+                    self.fil.insert([ind], filtration=-vec[ind,1])
+                    nei = self.kdt.query([vec[ind,:]], 5, return_distance=False)[0][1:]
+                    for idx in nei: self.fil.insert([ind, idx], filtration=np.mean([-vec[ind,1], -vec[idx,1]]))
+            if vec.shape[1] == 3:
+                for ind in range(len(vec)):
+                    self.fil.insert([ind], filtration=-vec[ind,2])
+                    nei = self.kdt.query([vec[ind,:]], 5, return_distance=False)[0][1:]
+                    for idx in nei: self.fil.insert([ind, idx], filtration=np.mean([-vec[ind,2], -vec[idx,2]]))
             # Initialize the filtration
             self.fil.initialize_filtration()
 
@@ -70,6 +81,14 @@ class Filtration:
         vtx = self.vertexes(neighbors)
         r_f = self.fil.get_filtration()
 
+        # Computes the DTM corresponding to the given points
+        def DTM(pts, neighbors):
+
+            tmp = self.kdt.query(pts, neighbors, return_distance=True)
+            tmp = np.square(tmp[0])
+
+            return np.sqrt(np.sum(tmp, axis=1) / neighbors)
+
         # Defines the maximum value of the DTM discretization of a segment
         def max_segment(p, q, divisions, neighbors) :
 
@@ -79,7 +98,7 @@ class Filtration:
             for i in range(divisions) : pts[i,:] = p + i*stp
             pts[divisions, :] = q
             
-            return max(self.DTM(pts, neighbors))
+            return max(DTM(pts, neighbors))
 
         # Defines the maximum value of the DTM discretization of a triangle
         def max_triangle(p, q, r, divisions, neighbors) :
@@ -93,7 +112,7 @@ class Filtration:
                     pts.append(q)
                     pts.append(r)
 
-            return max(self.DTM(np.asarray(pts), neighbors))
+            return max(DTM(np.asarray(pts), neighbors))
 
         # Create the filtration
         for spx in r_f :
@@ -101,10 +120,10 @@ class Filtration:
             if len(spx[0]) == 1 : 
                 fil.insert(spx[0], filtration=vtx[spx[0][0]])
             elif len(spx[0]) == 2 : 
-                val = self.max_segment(self.vec[spx[0][0], :], self.vec[spx[0][1], :], divisions, neighbors)
+                val = max_segment(self.vec[spx[0][0], :], self.vec[spx[0][1], :], divisions, neighbors)
                 fil.insert(spx[0], filtration=val)
             elif len(spx[0]) == 3 :
-                val = self.max_triangle(self.vec[spx[0][0], :], self.vec[spx[0][1], :], self.vec[spx[0][2], :], divisions, neighbors)
+                val = max_triangle(self.vec[spx[0][0], :], self.vec[spx[0][1], :], self.vec[spx[0][2], :], divisions, neighbors)
                 fil.insert(spx[0], filtration=val)
 
         # Memory efficiency
@@ -117,14 +136,13 @@ class Filtration:
         return fil
 
     # Compute the graph persistence
-    # format refers to the type of persistence to be computed
+    # type_filtration refers to the type of persistence to be computed
     # dimension refers to dimension focus and diagram extraction
-    def persistence(self, persistence_type='simple', dimension=0):
+    def persistence(self, type_filtration=None, dimension=0):
 
-        if persistence_type == 'simple': self.fil.persistence()
-        if persistence_type == 'alpha': self.fil.persistence()
-        if persistence_type == 'sublevel': self.fil = self.sub_filtration()
-        if persistence_type == 'dtm': self.fil = self.dtm_filtration()
+        if type_filtration is None: self.fil.persistence()
+        if type_filtration == 'sublevel': self.fil = self.sub_filtration()
+        if type_filtration == 'dtm': self.fil = self.dtm_filtration()
 
         self.fil = self.fil.persistence_intervals_in_dimension(dimension)
         self.fil = np.asarray([[ele[0], ele[1]] for ele in self.fil if ele[1] < np.inf])

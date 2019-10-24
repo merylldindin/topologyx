@@ -1,5 +1,7 @@
 # TdaToolbox 
 
+`Author: Meryll Dindin`
+
 ![LOGO](./figures/header.jpg)
 
 ## Introduction
