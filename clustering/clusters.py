@@ -52,74 +52,33 @@ class ClusterGenerator:
 
 class ToMaTo:
 
-    # Initialization 
+    # Initialization
     # x refers to the data
     # y are the labels and won't be used
-    def __init__(self, x, y):
+    def __init__(self, x, y = None):
 
         self.x = x
         self.y = y
+
+        # Vizualization requires 2D data points
+        if (x.shape[1]>2):
+            self.reduced = PCA(n_components=2).fit_transform(x)
+            print("PCA representation created")
+        self.estimate_clusters()
 
     # Estimate gaussian densities around the data distribution
     # nbins refers to the visualization and space mapping
     # graph is a boolean for data visualization
     def estimate_density(self, nbins=100, graph=False):
 
-        x,y = self.x.T
         den = kde(self.x.T)
-        vec = den(np.vstack([x, y]))
+        vec = den(np.vstack(([*self.x.T])))
 
         if graph:
+            reduced = self.reduced if hasattr(self,'reduced') else self.x
+            plot_density(self.x, reduced, nbins, den, vec)
 
-            u,v = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
-            val = den(np.vstack([u.flatten(), v.flatten()]))
-            
-            plt.figure(figsize=(18, 10))
-            fig = gds.GridSpec(3, 6)
-
-            plt.subplot(fig[0,0:2])
-            plt.title('Data Scatter Plot')
-            plt.plot(x, y, 'ko')
-            plt.xticks([])
-            plt.yticks([])
-            plt.subplot(fig[0,2:4])
-            plt.title('Gaussian KDE')
-            plt.pcolormesh(u, v, val.reshape(u.shape), cmap=plt.cm.BuGn_r)
-            plt.xticks([])
-            plt.yticks([])
-            plt.subplot(fig[0,4:6])
-            plt.title('Density Contours')
-            plt.pcolormesh(u, v, val.reshape(u.shape), cmap=plt.cm.BuGn_r, shading='gouraud')
-            plt.contour(u, v, val.reshape(u.shape))
-            plt.xticks([])
-            plt.yticks([])
-            
-            ax0 = plt.subplot(fig[1:3,0:3], projection='3d')
-            ax0.set_title('Mapped Density over 2D Space')
-            ax0.set_xticks([])                               
-            ax0.set_yticks([])                               
-            ax0.set_zticks([])
-            ax0.scatter(u, v, val, s=2, c='lightblue')
-            ax0.set_xlabel('x Coordinate')
-            ax0.set_ylabel('y Coordinate')
-            ax0.set_zlabel('Density Value')
-
-            ax1 = plt.subplot(fig[1:3,3:6], projection='3d')
-            ax1.set_title('Density Estimate over 2D Space')
-            ax1.set_xticks([])                               
-            ax1.set_yticks([])                               
-            ax1.set_zticks([])
-            ax1.scatter(x, y, vec, s=2, c='lightgrey')
-            ax1.set_xlabel('x Coordinate')
-            ax1.set_ylabel('y Coordinate')
-            ax1.set_zlabel('Density Value')
-
-            plt.tight_layout()
-            plt.show()
-
-            del u, v, val
-
-        del x, y, den
+        del den
 
         return vec
 
@@ -138,7 +97,7 @@ class ToMaTo:
             nei = self.kdt.query([self.x[ind]], neighbors, return_distance=False)[0][1:]
             for idx in nei:
                 self.sxt.insert([ind, idx], filtration=np.mean([-vec[ind], -vec[idx]]))
-                
+
         self.sxt.initialize_filtration()
         self.sxt.persistence()
 
@@ -233,3 +192,59 @@ class ToMaTo:
         del lst, fil, unf, ini, ind
 
         return rts
+
+
+def plot_density(X, reduced, nbins, den, vec):
+        x,y = reduced.T
+
+        u,v = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
+        # In if original data dimention > 2, the vizualization will show the 
+        # density over the reduced (2D) representation of the data calculated by PCA
+        # Otherwise, reduced is equal to original data
+        #TODO: Change to use original density function
+        val = kde(reduced.T)(np.vstack([u.flatten(), v.flatten()]))
+
+        plt.figure(figsize=(18, 10))
+        fig = gds.GridSpec(3, 6)
+
+        plt.subplot(fig[0,0:2])
+        plt.title('Data Scatter Plot')
+        plt.plot(x, y, 'ko')
+        plt.xticks([])
+        plt.yticks([])
+        plt.subplot(fig[0,2:4])
+        plt.title('Gaussian KDE')
+        plt.pcolormesh(u, v, val.reshape(u.shape), cmap=plt.cm.BuGn_r)
+        plt.xticks([])
+        plt.yticks([])
+        plt.subplot(fig[0,4:6])
+        plt.title('Density Contours')
+        plt.pcolormesh(u, v, val.reshape(u.shape), cmap=plt.cm.BuGn_r, shading='gouraud')
+        plt.contour(u, v, val.reshape(u.shape))
+        plt.xticks([])
+        plt.yticks([])
+
+        ax0 = plt.subplot(fig[1:3,0:3], projection='3d')
+        ax0.set_title('Mapped Density over 2D Space')
+        ax0.set_xticks([])                               
+        ax0.set_yticks([])                               
+        ax0.set_zticks([])
+        ax0.scatter(u, v, val, s=2, c='lightblue')
+        ax0.set_xlabel('x Coordinate')
+        ax0.set_ylabel('y Coordinate')
+        ax0.set_zlabel('Density Value')
+
+        ax1 = plt.subplot(fig[1:3,3:6], projection='3d')
+        ax1.set_title('Density Estimate over 2D Space')
+        ax1.set_xticks([])                               
+        ax1.set_yticks([])                               
+        ax1.set_zticks([])
+        ax1.scatter(x, y, vec, s=2, c='lightgrey')
+        ax1.set_xlabel('x Coordinate')
+        ax1.set_ylabel('y Coordinate')
+        ax1.set_zlabel('Density Value')
+
+        plt.tight_layout()
+        plt.show()
+
+        del x, y, u, v, val
