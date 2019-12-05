@@ -10,6 +10,7 @@ from sklearn.datasets import make_moons
 from sklearn.datasets import make_circles
 from sklearn.neighbors import KDTree
 from scipy.stats import gaussian_kde as kde
+from sklearn.decomposition import PCA
 
 try:
 	import matplotlib.pyplot as plt
