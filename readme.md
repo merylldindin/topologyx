@@ -18,7 +18,6 @@ Read more about applied TDA:
 This is **a** way to install the project. Nonetheless, it depends on your OS and your good habits. I currently work on _Ubuntu 18.04_ and like to separate each of my project in their relative virtual environment.
 
 * Install your distribution of [MiniConda](https://docs.conda.io/en/latest/miniconda.html).
-* Install the [GUDHI](https://anaconda.org/conda-forge/gudhi) python package.
 * Clone the GitHub repository.
 * Install recursively all the python packages used by the project.
 
@@ -26,8 +25,7 @@ This is **a** way to install the project. Nonetheless, it depends on your OS and
 bash Miniconda3-latest-Linux-x86_64.sh -p /home/meryll/CondaEnvs
 cd /home/meryll/CondaEnvs
 source bin/activate
-conda install -c conda-forge gudhi
-git clone https://www.github.com/Coricos/TdaToolbox
+git clone https://www.github.com/merylldindin/TdaToolbox
 cd TdaToolbox
 pip install -r requirements.txt
 ```
