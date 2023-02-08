@@ -107,12 +107,9 @@ class ToMaTo:
             for ele in dig:
                 if ele[0] == 0: res.append(ele)
 
-            plt.figure(figsize=(18, 4))
-            fig = gds.GridSpec(1, 2)
-            plt.subplot(fig[0,0])
-            gudhi.plot_persistence_diagram(res)
-            plt.subplot(fig[0,1])
-            gudhi.plot_persistence_barcode(res)
+            fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(18, 4))
+            gudhi.plot_persistence_diagram(res, axes=axes[0])
+            gudhi.plot_persistence_barcode(res, axes=axes[1])
             plt.tight_layout()
             plt.show()
 

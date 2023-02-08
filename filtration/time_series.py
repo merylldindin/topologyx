@@ -35,16 +35,11 @@ class Levels:
         dig_dw = self.simplex_dw.persistence()
 
         if graph:
-            plt.figure(figsize=(18,8))
-            fig = gds.GridSpec(2,2)
-            plt.subplot(fig[0,0])
-            gudhi.plot_persistence_diagram(dig_up)
-            plt.subplot(fig[1,0])
-            gudhi.plot_persistence_barcode(dig_up)
-            plt.subplot(fig[0,1])
-            gudhi.plot_persistence_diagram(dig_dw)
-            plt.subplot(fig[1,1])
-            gudhi.plot_persistence_barcode(dig_dw)
+            fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(18, 8))
+            gudhi.plot_persistence_diagram(dig_up, axes = axes[0, 0])
+            gudhi.plot_persistence_barcode(dig_up, axes = axes[1, 0])
+            gudhi.plot_persistence_diagram(dig_dw, axes = axes[0, 1])
+            gudhi.plot_persistence_barcode(dig_dw, axes = axes[1, 1])
             plt.tight_layout()
             plt.show()
 

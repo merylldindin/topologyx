@@ -140,9 +140,9 @@ class Filtration:
     # dimension refers to dimension focus and diagram extraction
     def persistence(self, type_filtration=None, dimension=0):
 
-        if type_filtration is None: self.fil.persistence()
         if type_filtration == 'sublevel': self.fil = self.sub_filtration()
-        if type_filtration == 'dtm': self.fil = self.dtm_filtration()
+        elif type_filtration == 'dtm':    self.fil = self.dtm_filtration()
+        else:                             self.fil.persistence()
 
         self.fil = self.fil.persistence_intervals_in_dimension(dimension)
         self.fil = np.asarray([[ele[0], ele[1]] for ele in self.fil if ele[1] < np.inf])
