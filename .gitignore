@@ -1,15 +1,11 @@
-# Author:  DINDIN Meryll
-# Date:    27/08/2019
-# Project: optimizers
+# dependencies
+.venv/
 
-# Compiled files
-bin/
-lib/
-etc/
-share/
-include/
+# cache
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+**/__pycache__/
 
-# Compiled files
-.ipynb_checkpoints/
-clustering/__pycache__/
-filtration/__pycache__/
+# package
+dist/

@@ -1,6 +1,0 @@
-plotly>=3.4.1
-Keras>=2.2.4
-matplotlib>=3.0.2
-numpy>=1.15.4
-tqdm>=4.28.1
-scikit_learn>=0.20.3

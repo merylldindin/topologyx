@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignees": ["merylldindin"],
+  "dependencyDashboard": true,
+  "dependencyDashboardAutoclose": true,
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      "automerge": true,
+      "automergeSchedule": "0 0 4 ? * MON *",
+      "groupName": "python dependencies (minor)",
+      "labels": ["dependencies", "python", "automerge"],
+      "matchDepTypes": ["dependencies", "dev"],
+      "matchManagers": ["poetry"],
+      "matchUpdateTypes": [
+        "bump",
+        "digest",
+        "lockFileMaintenance",
+        "minor",
+        "patch",
+        "pin",
+        "rollback"
+      ],
+      "semanticCommitType": "build"
+    },
+    {
+      "automerge": true,
+      "automergeSchedule": "0 0 4 ? * MON *",
+      "groupName": "python dependencies",
+      "labels": ["dependencies", "python", "automerge"],
+      "matchDepTypes": ["dev"],
+      "matchManagers": ["poetry"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "build"
+    }
+  ],
+  "platformAutomerge": true,
+  "schedule": ["every weekend"]
+}

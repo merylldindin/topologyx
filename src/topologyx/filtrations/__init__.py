@@ -2,12 +2,14 @@
 # Date:    26/06/2018
 # Project: TdaToolbox
 
-try: from filtration.utils import *
-except: from utils import *
+import gudhi
+import numpy as np
+from sklearn.neighbors import KDTree
 
 # Computes associated persistent objects
 
-class Filtration: 
+
+class Filtration:
 
     # Initialisation
     # vec refers to the multidimensional input vector
@@ -27,20 +29,26 @@ class Filtration:
             self.fil = gudhi.SimplexTree()
             # Insert elements
             if vec.shape[1] == 1:
-                for i in np.arange(len(vec)): 
+                for i in np.arange(len(vec)):
                     self.fil.insert([i], filtration=vec[i])
-                for i in np.arange(len(vec)-1): 
-                    self.fil.insert([i, i+1], filtration=vec[i])
+                for i in np.arange(len(vec) - 1):
+                    self.fil.insert([i, i + 1], filtration=vec[i])
             if vec.shape[1] == 2:
                 for ind in range(len(vec)):
-                    self.fil.insert([ind], filtration=-vec[ind,1])
-                    nei = self.kdt.query([vec[ind,:]], 5, return_distance=False)[0][1:]
-                    for idx in nei: self.fil.insert([ind, idx], filtration=np.mean([-vec[ind,1], -vec[idx,1]]))
+                    self.fil.insert([ind], filtration=-vec[ind, 1])
+                    nei = self.kdt.query([vec[ind, :]], 5, return_distance=False)[0][1:]
+                    for idx in nei:
+                        self.fil.insert(
+                            [ind, idx], filtration=np.mean([-vec[ind, 1], -vec[idx, 1]])
+                        )
             if vec.shape[1] == 3:
                 for ind in range(len(vec)):
-                    self.fil.insert([ind], filtration=-vec[ind,2])
-                    nei = self.kdt.query([vec[ind,:]], 5, return_distance=False)[0][1:]
-                    for idx in nei: self.fil.insert([ind, idx], filtration=np.mean([-vec[ind,2], -vec[idx,2]]))
+                    self.fil.insert([ind], filtration=-vec[ind, 2])
+                    nei = self.kdt.query([vec[ind, :]], 5, return_distance=False)[0][1:]
+                    for idx in nei:
+                        self.fil.insert(
+                            [ind, idx], filtration=np.mean([-vec[ind, 2], -vec[idx, 2]])
+                        )
             # Initialize the filtration
             self.fil.initialize_filtration()
 
@@ -70,11 +78,11 @@ class Filtration:
         fil.set_dimension(self.vec.shape[1])
         fil.initialize_filtration()
         fil.persistence()
-        
+
         return fil
 
     # DTM filtration thanks to the Rips algorithm
-    def dtm_filtration(self, neighbors=5, divisions=5) :
+    def dtm_filtration(self, neighbors=5, divisions=5):
 
         # Defines the filtration
         fil = gudhi.SimplexTree()
@@ -90,24 +98,25 @@ class Filtration:
             return np.sqrt(np.sum(tmp, axis=1) / neighbors)
 
         # Defines the maximum value of the DTM discretization of a segment
-        def max_segment(p, q, divisions, neighbors) :
+        def max_segment(p, q, divisions, neighbors):
 
             stp = (q - p) / float(divisions)
             dim = len(p)
-            pts = np.zeros((divisions+1, dim))
-            for i in range(divisions) : pts[i,:] = p + i*stp
+            pts = np.zeros((divisions + 1, dim))
+            for i in range(divisions):
+                pts[i, :] = p + i * stp
             pts[divisions, :] = q
-            
+
             return max(DTM(pts, neighbors))
 
         # Defines the maximum value of the DTM discretization of a triangle
-        def max_triangle(p, q, r, divisions, neighbors) :
+        def max_triangle(p, q, r, divisions, neighbors):
 
             pts = []
             for alpha in range(divisions):
                 for beta in range(divisions - alpha):
                     gamma = divisions - alpha - beta
-                    pts.append((alpha*p + beta*q + gamma*r) / float(divisions))
+                    pts.append((alpha * p + beta * q + gamma * r) / float(divisions))
                     pts.append(p)
                     pts.append(q)
                     pts.append(r)
@@ -115,15 +124,23 @@ class Filtration:
             return max(DTM(np.asarray(pts), neighbors))
 
         # Create the filtration
-        for spx in r_f :
+        for spx in r_f:
 
-            if len(spx[0]) == 1 : 
+            if len(spx[0]) == 1:
                 fil.insert(spx[0], filtration=vtx[spx[0][0]])
-            elif len(spx[0]) == 2 : 
-                val = max_segment(self.vec[spx[0][0], :], self.vec[spx[0][1], :], divisions, neighbors)
+            elif len(spx[0]) == 2:
+                val = max_segment(
+                    self.vec[spx[0][0], :], self.vec[spx[0][1], :], divisions, neighbors
+                )
                 fil.insert(spx[0], filtration=val)
-            elif len(spx[0]) == 3 :
-                val = max_triangle(self.vec[spx[0][0], :], self.vec[spx[0][1], :], self.vec[spx[0][2], :], divisions, neighbors)
+            elif len(spx[0]) == 3:
+                val = max_triangle(
+                    self.vec[spx[0][0], :],
+                    self.vec[spx[0][1], :],
+                    self.vec[spx[0][2], :],
+                    divisions,
+                    neighbors,
+                )
                 fil.insert(spx[0], filtration=val)
 
         # Memory efficiency
@@ -140,9 +157,12 @@ class Filtration:
     # dimension refers to dimension focus and diagram extraction
     def persistence(self, type_filtration=None, dimension=0):
 
-        if type_filtration is None: self.fil.persistence()
-        if type_filtration == 'sublevel': self.fil = self.sub_filtration()
-        if type_filtration == 'dtm': self.fil = self.dtm_filtration()
+        if type_filtration is None:
+            self.fil.persistence()
+        if type_filtration == 'sublevel':
+            self.fil = self.sub_filtration()
+        if type_filtration == 'dtm':
+            self.fil = self.dtm_filtration()
 
         self.fil = self.fil.persistence_intervals_in_dimension(dimension)
         self.fil = np.asarray([[ele[0], ele[1]] for ele in self.fil if ele[1] < np.inf])
@@ -157,15 +177,18 @@ class Filtration:
 
             def dirichlet(x):
                 return 1 if (x > descriptor[0]) and (x < descriptor[1]) else 0
-    
+
             return np.vectorize(dirichlet)(val)
 
         # Compute persistence
         res = np.zeros(num_points)
-        if m_n is None: m_n = np.min(self.fil)
-        if m_x is None: m_x = np.max(self.fil)
+        if m_n is None:
+            m_n = np.min(self.fil)
+        if m_x is None:
+            m_x = np.max(self.fil)
         val = np.linspace(m_n, m_x, num=num_points)
-        for ele in self.fil: res += functionize(val, ele)
+        for ele in self.fil:
+            res += functionize(val, ele)
         # Memory efficiency
         del val
 
@@ -179,8 +202,10 @@ class Filtration:
 
         # Prepares the discretization
         ldc = np.zeros((nb_landscapes, num_points))
-        if m_n is None: m_n = np.min(self.fil)
-        if m_x is None: m_x = np.max(self.fil)
+        if m_n is None:
+            m_n = np.min(self.fil)
+        if m_x is None:
+            m_x = np.max(self.fil)
         stp = np.linspace(m_n, m_x, num=num_points)
 
         # Use the triangular functions
@@ -188,12 +213,15 @@ class Filtration:
             val = []
             for pair in self.fil:
                 b, d = pair[0], pair[1]
-                if (d+b)/2.0 <= ele <= d: val.append(d - ele)
-                elif  b <= ele <= (d+b)/2.0: val.append(ele - b)
+                if (d + b) / 2.0 <= ele <= d:
+                    val.append(d - ele)
+                elif b <= ele <= (d + b) / 2.0:
+                    val.append(ele - b)
             val.sort(reverse=True)
             val = np.asarray(val)
             for j in range(nb_landscapes):
-                if (j < len(val)): ldc[j, idx] = val[j]
+                if j < len(val):
+                    ldc[j, idx] = val[j]
             del val
 
         # Memory efficiency
@@ -210,23 +238,32 @@ class Filtration:
 
         dig = self.fil.copy()
         img = np.zeros(image_size)
-        dig[:,1] = dig[:,1] - np.sum(dig, axis=1)/2
-        if m_n is None: mnx, mxx = np.min(dig[:,0]), np.max(dig[:,0])
-        else: mnx, mxx = m_n
-        if m_x is None: mny, mxy = np.min(dig[:,1]), np.max(dig[:,1])
-        else: mny, mxy = m_x
+        dig[:, 1] = dig[:, 1] - np.sum(dig, axis=1) / 2
+        if m_n is None:
+            mnx, mxx = np.min(dig[:, 0]), np.max(dig[:, 0])
+        else:
+            mnx, mxx = m_n
+        if m_x is None:
+            mny, mxy = np.min(dig[:, 1]), np.max(dig[:, 1])
+        else:
+            mny, mxy = m_x
 
         def weight(point, extrema):
 
-            if point[1] <= 0: return 0
-            else: return point[1] / extrema
+            if point[1] <= 0:
+                return 0
+            else:
+                return point[1] / extrema
 
         def gaussian_value(point, mean, var):
 
-            coe = 1.0 / (2*np.pi*var)
-            com = np.exp(-(np.square(point[0]-mean[0])+np.square(point[1]-mean[1]))/(2*var))
+            coe = 1.0 / (2 * np.pi * var)
+            com = np.exp(
+                -(np.square(point[0] - mean[0]) + np.square(point[1] - mean[1]))
+                / (2 * var)
+            )
 
-            return coe*com
+            return coe * com
 
         def gaussian_kernel(point, mnx, mxx, mny, mxy, image_size, var=1e-8):
 
@@ -238,12 +275,13 @@ class Filtration:
             # Value filling
             for i in range(len(x)):
                 for j in range(len(y)):
-                    val = gaussian_value([x[i], y[j]] , point, var)
+                    val = gaussian_value([x[i], y[j]], point, var)
                     val = val * weight(point, mxy)
-                    img[len(y)-1-j, i] = val
+                    img[len(y) - 1 - j, i] = val
 
             return img
 
-        for point in dig: img += gaussian_kernel(point, mnx, mxx, mny, mxy, image_size, var=variance)
+        for point in dig:
+            img += gaussian_kernel(point, mnx, mxx, mny, mxy, image_size, var=variance)
 
         return img
