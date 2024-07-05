@@ -1,63 +1,101 @@
-# TdaToolbox 
+<a href="https://merylldindin.com">
+  <img src="https://cdn.merylldindin.com/github/topologyx.webp" alt="topologyx" width="100%">
+</a>
 
-`Author: Meryll Dindin`
+<div align="center">
+  <a href="https://github.com/merylldindin/topologyx/graphs/contributors" target="_blank">
+    <img src="https://img.shields.io/github/contributors/merylldindin/topologyx.svg?style=for-the-badge" alt="contributors"/>
+  </a>
 
-![LOGO](./figures/header.jpg)
+  <a href="https://github.com/merylldindin/topologyx/stargazers" target="_blank">
+    <img src="https://img.shields.io/github/stars/merylldindin/topologyx.svg?style=for-the-badge" alt="stars"/>
+  </a>
 
-## Introduction
+  <a href="https://github.com/merylldindin/topologyx/issues" target="_blank">
+    <img src="https://img.shields.io/github/issues/merylldindin/topologyx.svg?style=for-the-badge" alt="issues"/>
+  </a>
 
-Topological Data Analysis, also abbreviated *TDA*, is a recent field that emerged from various works in applied topology and computational geometry. It aims at providing well-founded mathematical, statistical and algorithmic methods to exploit the topological and underlying geometric structures in data. My aim is to develop some tools in this repository, that may be applied to data science in general. Some of them already proved useful for classification tasks.
+  <a href="https://pypi.python.org/pypi/topologyx" target="_blank">
+    <img src="https://img.shields.io/pypi/v/topologyx.svg?style=for-the-badge" alt="pypi version"/>
+  </a>
+
+  <a href="https://github.com/merylldindin/topologyx/blob/master/LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/merylldindin/topologyx.svg?style=for-the-badge" alt="license"/>
+  </a>
+</div>
+
+<div align="center">
+  <p align="center">
+    <h2> Topology Data Analysis Routines </h2>
+    <a href="https://github.com/merylldindin/topologyx/issues">
+        Report Bug
+    </a>
+  </p>
+</div>
+
+## <summary>Table of Contents</summary>
+
+<ol>
+    <li><a href="#about-topologyx">About TopologyX</a></li>
+    <li><a href="#built-with">Built With</a></li>
+    <li><a href="#get-started">Get Started</a></li>
+</ol>
+
+## About TopologyX
+
+Topological Data Analysis, also abbreviated _TDA_, is a recent field that emerged from various works in applied topology and computational geometry. It aims at providing well-founded mathematical, statistical, and algorithmic methods to exploit the topological and underlying geometric structures in data. My aim is to develop some tools in this repository that may be applied to data science in general. Some of them have already proven useful for classification tasks.
 
 Read more about applied TDA:
+
+- [General introduction to TDA](https://hal.inria.fr/hal-02155849/file/1906.05795.pdf)
 - [Medium article with general TDA overview](https://towardsdatascience.com/from-tda-to-dl-d06f234f51d)
 - [Medium article about TDA for clustering](https://towardsdatascience.com/tda-to-rule-them-all-tomato-clustering-878e03394a1)
-- [Paper on applied TDA for arrhythmia detection](https://hal.inria.fr/hal-02155849/file/1906.05795.pdf)
+- [Paper on applied TDA for arrhythmia detection](https://arxiv.org/abs/1906.05795)
 
-## Package Installation
+## Built With
 
-This is **a** way to install the project. Nonetheless, it depends on your OS and your good habits. I currently work on _Ubuntu 18.04_ and like to separate each of my project in their relative virtual environment.
+- [Python](https://www.python.org/)
+- [Poetry](https://python-poetry.org/)
+- [Gudhi](https://gudhi.inria.fr/)
+- [Keras](https://keras.io/)
 
-* Install your distribution of [MiniConda](https://docs.conda.io/en/latest/miniconda.html).
-* Install the [GUDHI](https://anaconda.org/conda-forge/gudhi) python package.
-* Clone the GitHub repository.
-* Install recursively all the python packages used by the project.
-
-```bash
-bash Miniconda3-latest-Linux-x86_64.sh -p /home/meryll/CondaEnvs
-cd /home/meryll/CondaEnvs
-source bin/activate
-conda install -c conda-forge gudhi
-git clone https://www.github.com/Coricos/TdaToolbox
-cd TdaToolbox
-pip install -r requirements.txt
-```
-
-### Specific to Jupyter Notebooks Users
-
-If like me, each of your project is separated into their respective environment, then you will have to define relative kernels.
+## Get Started
 
 ```bash
-pip install jupyter notebook ipython ipykernel
-python -m ipykernel install --user --name=tdatoolbox
+pip install topologyx
+# or with poetry
+poetry add topologyx
 ```
 
-For others purposes, those command lines may turn out to be useful:
+### How To Use
+
+```python
+from topologyx.filtrations import Filtration
+
+filtration = Filtration(data, use_alpha=False)
+filtration.build_persistence_diagram(filtration_type=FiltrationType.SIMPLE, dimension=0)
+```
+
+```python
+from topologyx.clustering import TomatoClustering
+
+tomato = TomatoClustering(data)
+_ = tomato.estimate_clusters(visualize=True)
+_ = tomato.fit_predict(n_clusters=3, visualize=True)
+```
+
+### Local Installation
 
 ```bash
-# Display the list of all installed kernels
-jupyter kernelspec list
-# Remove a specific kernel of ipython
-jupyter kernelspec uninstall tdatoolbox
+git clone https://github.com/merylldindin/topologyx
+# install dependencies
+make install
 ```
 
-## Tutorial Clustering - 3DShape
+### Using Notebooks
 
-This _notebook_ gives a simple example of how to handle three-dimensional shapes. The whole example is based on the height as filtration function, so not invariant in space. However, it gives a pretty good idea of what the output of a topological analysis may give.
+`ipykernel` comes out of the box with our dependencies, so you can directly use the notebooks provided in the `examples` folder. I use `VSCode` as engine for my jupyter notebooks.
 
-## Tutorial Clustering - ToMaTo
+**Tutorial: Filtration of a 3D shape:** This [notebook](https://github.com/merylldindin/topologyx/blob/master/examples/filtrations.ipynb) gives a simple example of how to handle three-dimensional shapes. The whole example is based on the height as filtration function, so not invariant in space. However, it gives a pretty good idea of what the output of a topological analysis may give.
 
-This _notebook_ rather focus on a specific strength of TDA: its robustness to detect centroids in dataset, along with its ability to record the relationships between each point, enabling us to retrace the whole structure of the centroids. Examples are provided in the notebook.
-
-## Tutorial TimeSeries - Evolutions
-
-This _section_ is still in construction.
+**Tutorial: ToMaTo clustering:** This [notebook](https://github.com/merylldindin/topologyx/blob/master/examples/clustering.ipynb) rather focus on a specific strength of TDA: its robustness to detect centroids in dataset, along with its ability to record the relationships between each point, enabling us to retrace the whole structure of the centroids. Examples are provided in the notebook.
