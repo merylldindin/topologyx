@@ -22,7 +22,10 @@ class FiltrationType(Enum):
 
 class Filtration:
     def __init__(
-        self, vector: np.ndarray, use_alpha: bool = True, leaf_size: int = 30
+        self,
+        vector: np.ndarray,
+        use_alpha: bool = True,
+        leaf_size: int = 30,
     ) -> None:
         self.vector = vector
         self.kd_tree = KDTree(self.vector, leaf_size=leaf_size, metric='euclidean')
@@ -98,7 +101,11 @@ class Filtration:
         return simplex
 
     def compute_segment_maximum_density(
-        self, p: np.ndarray, q: np.ndarray, n_divisions: int, n_neighbors: int
+        self,
+        p: np.ndarray,
+        q: np.ndarray,
+        n_divisions: int,
+        n_neighbors: int,
     ) -> float:
         step = (q - p) / float(n_divisions)
         points = np.zeros((n_divisions + 1, len(p)))
@@ -248,9 +255,10 @@ class Levels:
         self.upper_simplex.initialize_filtration()
         self.lower_simplex.initialize_filtration()
 
-    def build_persistence_diagram(
-        self, visualize: bool = False
-    ) -> tuple[np.ndarray, np.ndarray]:
+    def build_persistence_diagram(self, visualize: bool = False) -> tuple[
+        np.ndarray,
+        np.ndarray,
+    ]:
         upper_persistence = self.upper_simplex.persistence()
         lower_persistence = self.lower_simplex.persistence()
 
@@ -283,8 +291,13 @@ class Levels:
         lower_maximum: float | None = None,
         n_points: int = 100,
         visualize: bool = False,
-    ) -> tuple[np.ndarray, np.ndarray]:
-        upper_persistence, lower_persistence = self.get_persistence(visualize=visualize)
+    ) -> tuple[
+        np.ndarray,
+        np.ndarray,
+    ]:
+        upper_persistence, lower_persistence = self.build_persistence_diagram(
+            visualize=visualize
+        )
 
         upper_curve = build_betti_curve(
             upper_persistence,
@@ -313,8 +326,13 @@ class Levels:
         n_landscapes: int = 5,
         n_points: int = 100,
         visualize: bool = False,
-    ) -> tuple[np.ndarray, np.ndarray]:
-        upper_persistence, lower_persistence = self.get_persistence(visualize=visualize)
+    ) -> tuple[
+        np.ndarray,
+        np.ndarray,
+    ]:
+        upper_persistence, lower_persistence = self.build_persistence_diagram(
+            visualize=visualize
+        )
 
         upper_landscapes = build_persistence_landscape(
             upper_persistence,

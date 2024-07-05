@@ -22,7 +22,11 @@ def plot_persistence(persistence: list[tuple[int, list[tuple[float, float]]]]) -
 
 def plot_density(tensor: np.ndarray, n_bins: int, vector_density: np.ndarray) -> None:
     x, y = tensor.T
-    u, v = np.mgrid[x.min() : x.max() : n_bins * 1j, y.min() : y.max() : n_bins * 1j]
+
+    u, v = np.mgrid[
+        int(x.min()) : int(x.max()) : n_bins * 1j,  # type: ignore
+        int(y.min()) : int(y.max()) : n_bins * 1j,  # type: ignore
+    ]
 
     kernel_density = kde(tensor.T)(np.vstack([u.flatten(), v.flatten()]))
 
@@ -48,25 +52,25 @@ def plot_density(tensor: np.ndarray, n_bins: int, vector_density: np.ndarray) ->
     plt.xticks([])
     plt.yticks([])
 
-    ax0 = plt.subplot(fig[1:3, 0:3], projection='3d')
-    ax0.set_title('Mapped Density over 2D Space')
-    ax0.set_xticks([])
-    ax0.set_yticks([])
-    ax0.set_zticks([])  # type: ignore
-    ax0.scatter(u, v, kernel_density.reshape(u.shape), s=2, c='lightblue')
-    ax0.set_xlabel('x Coordinate')
-    ax0.set_ylabel('y Coordinate')
-    ax0.set_zlabel('Density Value')  # type: ignore
+    axe_0 = plt.subplot(fig[1:3, 0:3], projection='3d')
+    axe_0.set_title('Mapped Density over 2D Space')
+    axe_0.set_xticks([])
+    axe_0.set_yticks([])
+    axe_0.set_zticks([])  # type: ignore
+    axe_0.scatter(u, v, kernel_density.reshape(u.shape), size=2, c='lightblue')
+    axe_0.set_xlabel('x Coordinate')
+    axe_0.set_ylabel('y Coordinate')
+    axe_0.set_zlabel('Density Value')  # type: ignore
 
-    ax1 = plt.subplot(fig[1:3, 3:6], projection='3d')
-    ax1.set_title('Density Estimate over 2D Space')
-    ax1.set_xticks([])
-    ax1.set_yticks([])
-    ax1.set_zticks([])  # type: ignore
-    ax1.scatter(x, y, vector_density.reshape(x.shape), s=2, c='lightgrey')
-    ax1.set_xlabel('x Coordinate')
-    ax1.set_ylabel('y Coordinate')
-    ax1.set_zlabel('Density Value')  # type: ignore
+    axe_1 = plt.subplot(fig[1:3, 3:6], projection='3d')
+    axe_1.set_title('Density Estimate over 2D Space')
+    axe_1.set_xticks([])
+    axe_1.set_yticks([])
+    axe_1.set_zticks([])  # type: ignore
+    axe_1.scatter(x, y, vector_density.reshape(x.shape), size=2, c='lightgrey')
+    axe_1.set_xlabel('x Coordinate')
+    axe_1.set_ylabel('y Coordinate')
+    axe_1.set_zlabel('Density Value')  # type: ignore
 
     plt.tight_layout()
     plt.show()

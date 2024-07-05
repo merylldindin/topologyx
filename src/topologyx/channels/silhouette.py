@@ -3,8 +3,8 @@ from typing import Any
 from keras import initializers, layers, ops
 
 
-class SilhouetteLayer(layers.Layer):
-    def __init__(self, dimension: int, **kwargs) -> None:
+class SilhouetteLayer(layers.Layer):  # type: ignore
+    def __init__(self, dimension: int, **kwargs: Any) -> None:
         self.dimension = dimension
 
         super(SilhouetteLayer, self).__init__(**kwargs)
@@ -25,5 +25,5 @@ class SilhouetteLayer(layers.Layer):
             (-1, inputs.get_shape()[-1], 1),
         )
 
-    def compute_output_shape(self, _) -> tuple[None, int, int]:
+    def compute_output_shape(self, _: Any) -> tuple[None, int, int]:
         return (None, self.dimension, 1)

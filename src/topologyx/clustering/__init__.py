@@ -31,7 +31,7 @@ class ClusterGenerator:
         self.n_samples = n_samples
         self.randomize = randomize
 
-    def generate(self) -> tuple[np.ndarray, ...]:
+    def generate(self) -> tuple[np.ndarray | None, ...]:
         match self.structure:
             case ClusterStructure.ANISOTROPY:
                 x, y = make_blobs(n_samples=self.n_samples, random_state=self.randomize)  # type: ignore
@@ -159,14 +159,14 @@ class TomatoClustering:
         if not hasattr(self, 'simplex'):
             self.estimate_clusters(n_neighbors=n_neighbors, visualize=visualize)
 
-        vertexes, filtrations = [], []
+        _vertexes, filtrations = [], []
 
         for simplex, filtration in self.simplex.get_filtration():
             if len(simplex) == 1:
-                vertexes.append(simplex[0])
+                _vertexes.append(simplex[0])
                 filtrations.append(-filtration)
 
-        vertexes = np.asarray(vertexes)
+        vertexes = np.asarray(_vertexes)
         n_simplexes = dict(zip(vertexes, np.asarray(filtrations)))
 
         neighbors_counter = n_neighbors

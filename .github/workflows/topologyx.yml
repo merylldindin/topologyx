@@ -1,6 +1,6 @@
 name: topologyx
 
-on: [pull_request, merge_group]
+on: [pull_request, merge_group, workflow_dispatch]
 
 jobs:
   workflow:

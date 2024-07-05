@@ -5,10 +5,10 @@ from typing import Any
 
 class UnionFind:
     def __init__(self) -> None:
-        self.weights = {}
-        self.pointers = {}
-        self.indexes_to_objects = {}
-        self.objects_to_indexes = {}
+        self.weights: dict[int, int] = {}
+        self.pointers: dict[int, int] = {}
+        self.indexes_to_objects: dict[int, Any] = {}
+        self.objects_to_indexes: dict[Any, int] = {}
 
     def insert_objects(self, objects: Any) -> None:
         for object in objects:

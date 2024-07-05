@@ -1,4 +1,5 @@
 PYTHON_FILES = `(find . -iname "*.py" -not -path "./.venv/*")`
+KERNEL_FILES = `(find . -iname "*.ipynb" -not -path "./.venv/*")`
 
 install: ## Install package dependencies
 	poetry install --sync --with dev,types
@@ -14,19 +15,19 @@ poetry-update: ## Upgrade poetry and dependencies
 	poetry update
 
 black: ## Run Black
-	poetry run black --quiet --check $(PYTHON_FILES)
+	poetry run black --quiet --check $(PYTHON_FILES) $(KERNEL_FILES)
 
 black-fix: ## Run Black with automated fix
-	poetry run black --quiet $(PYTHON_FILES)
+	poetry run black --quiet $(PYTHON_FILES) $(KERNEL_FILES)
 
 mypy: ## Run Mypy
 	poetry run mypy $(PYTHON_FILES)
 
 ruff: ## Run Ruff
-	poetry run ruff check $(PYTHON_FILES)
+	poetry run ruff check $(PYTHON_FILES) $(KERNEL_FILES)
 
 ruff-fix: ## Run Ruff with automated fix
-	poetry run ruff check --fix $(PYTHON_FILES)
+	poetry run ruff check --fix $(PYTHON_FILES) $(KERNEL_FILES)
 
 pytest: ## Run Pytest
 	poetry run pytest tests/

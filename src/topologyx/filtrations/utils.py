@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def functionize(vector: np.ndarray, descriptor) -> np.ndarray:
+def functionize(vector: np.ndarray, descriptor: tuple[float, float]) -> np.ndarray:
     return np.vectorize(
         lambda x: 1 if (x > descriptor[0]) and (x < descriptor[1]) else 0
     )(vector)
@@ -47,18 +47,18 @@ def build_persistence_landscape(
     linspace = np.linspace(minimum, maximum, num=n_points)  # type: ignore
 
     for i, value in enumerate(linspace):
-        vector = []
+        _vector = []
 
         for pair in persistence:
             birth_radius, death_radius = pair[0], pair[1]
 
             if (death_radius + birth_radius) / 2.0 <= value <= death_radius:
-                vector.append(death_radius - value)
+                _vector.append(death_radius - value)
             elif birth_radius <= value <= (death_radius + birth_radius) / 2.0:
-                vector.append(value - birth_radius)
+                _vector.append(value - birth_radius)
 
-        vector.sort(reverse=True)
-        vector = np.asarray(vector)
+        _vector.sort(reverse=True)
+        vector = np.asarray(_vector)
 
         for j in range(n_landscapes):
             if j < len(vector):
