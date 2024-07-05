@@ -82,29 +82,29 @@ class TomatoClustering:
     def estimate_clusters(self, n_neighbors: int = 6, visualize: bool = False) -> None:
         vector_density = self.estimate_density(visualize=visualize)
 
-        self.simplex_tree = gudhi.SimplexTree()  # type: ignore
+        self.simplex = gudhi.SimplexTree()  # type: ignore
         self.kd_tree = KDTree(self.x, metric='euclidean')
 
         for index in range(self.x.shape[0]):
-            self.simplex_tree.insert([index], filtration=-vector_density[index])
+            self.simplex.insert([index], filtration=-vector_density[index])
 
             neighbors = self.kd_tree.query(
                 [self.x[index]], n_neighbors, return_distance=False
             )[0][1:]
 
             for neighbor_index in neighbors:
-                self.simplex_tree.insert(
+                self.simplex.insert(
                     [index, neighbor_index],
                     filtration=np.mean(
                         [-vector_density[index], -vector_density[neighbor_index]]
                     ),
                 )
 
-        self.simplex_tree.initialize_filtration()
-        self.simplex_tree.persistence()
+        self.simplex.initialize_filtration()
+        self.simplex.persistence()
 
         if visualize:
-            plot_persistence(self.simplex_tree.persistence())
+            plot_persistence(self.simplex.persistence())
 
     def define_clusters(
         self,
@@ -156,12 +156,12 @@ class TomatoClustering:
         n_neighbors: int = 6,
         visualize: bool = False,
     ) -> np.ndarray:
-        if not hasattr(self, 'simplex_tree'):
+        if not hasattr(self, 'simplex'):
             self.estimate_clusters(n_neighbors=n_neighbors, visualize=visualize)
 
         vertexes, filtrations = [], []
 
-        for simplex, filtration in self.simplex_tree.get_filtration():
+        for simplex, filtration in self.simplex.get_filtration():
             if len(simplex) == 1:
                 vertexes.append(simplex[0])
                 filtrations.append(-filtration)
