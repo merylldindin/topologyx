@@ -57,7 +57,7 @@ def plot_density(tensor: np.ndarray, n_bins: int, vector_density: np.ndarray) ->
     axe_0.set_xticks([])
     axe_0.set_yticks([])
     axe_0.set_zticks([])  # type: ignore
-    axe_0.scatter(u, v, kernel_density.reshape(u.shape), size=2, c='lightblue')
+    axe_0.scatter(u, v, kernel_density.reshape(u.shape), s=2, c='lightblue')  # type: ignore
     axe_0.set_xlabel('x Coordinate')
     axe_0.set_ylabel('y Coordinate')
     axe_0.set_zlabel('Density Value')  # type: ignore
@@ -67,7 +67,7 @@ def plot_density(tensor: np.ndarray, n_bins: int, vector_density: np.ndarray) ->
     axe_1.set_xticks([])
     axe_1.set_yticks([])
     axe_1.set_zticks([])  # type: ignore
-    axe_1.scatter(x, y, vector_density.reshape(x.shape), size=2, c='lightgrey')
+    axe_1.scatter(x, y, vector_density.reshape(x.shape), s=2, c='lightgrey')  # type: ignore
     axe_1.set_xlabel('x Coordinate')
     axe_1.set_ylabel('y Coordinate')
     axe_1.set_zlabel('Density Value')  # type: ignore
