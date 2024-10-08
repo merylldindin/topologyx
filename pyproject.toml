@@ -42,7 +42,7 @@ readme = "README.md"
 version = "1.0.2"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.13"
+python = ">=3.13,<3.14"
 gudhi = "^3.10.1"
 keras = "^3.4.1"
 matplotlib = "^3.9.0"
@@ -59,7 +59,7 @@ black = "^24.0.0"
 mypy = "^1.0"
 pytest = "^8.1.0"
 pytest-cov = "^5.0.0"
-ruff = "^0.5.0"
+ruff = "^0.6.0"
 
 [tool.poetry.group.types]
 optional = true
