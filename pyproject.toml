@@ -58,7 +58,7 @@ optional = true
 black = "^24.0.0"
 mypy = "^1.0"
 pytest = "^8.1.0"
-pytest-cov = "^5.0.0"
+pytest-cov = "^6.0.0"
 ruff = "^0.5.0"
 
 [tool.poetry.group.types]
