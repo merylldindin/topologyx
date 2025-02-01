@@ -47,7 +47,7 @@ gudhi = "^3.10.1"
 keras = "^3.4.1"
 matplotlib = "^3.9.0"
 numpy = "^2.0.0"
-plotly = "^5.22.0"
+plotly = "^6.0.0"
 scikit-learn = "^1.5.1"
 tqdm = "^4.66.4"
 
