@@ -39,7 +39,7 @@ authors = ["Meryll Dindin <merylldin@gmail.com>"]
 description = "Topology data analysis routines"
 name = "topologyx"
 readme = "README.md"
-version = "1.0.2"
+version = "1.0.3"
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.14"
