@@ -1,11 +1,11 @@
-name: cleanup
+name: Workflows Cleanup
 
-run-name: "ci(github): clean up old workflow runs"
+run-name: 'ci(github): clean up old workflow runs'
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: '0 0 * * 0'
 
 jobs:
   workflow:

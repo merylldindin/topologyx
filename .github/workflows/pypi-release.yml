@@ -1,14 +1,16 @@
-name: release
+name: PyPI Release
+
+run-name: 'ci(pypi): release to PyPI'
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Semantic version tag (e.g., 1.2.3)"
+        description: 'Semantic version tag (e.g., 1.2.3)'
         required: true
 
 env:
-  PYTHON_VERSION: "3.12"
+  PYTHON_VERSION: '3.12'
 
 jobs:
   workflow:
@@ -40,7 +42,7 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
           git add pyproject.toml
-          git commit -m "build: bump version to ${{ inputs.version }}"
+          git commit -m 'build: bump version to ${{ inputs.version }}'
           git push origin master
 
       - name: Push changes to release branch
@@ -49,7 +51,7 @@ jobs:
 
       - name: Create release
         run: |
-          gh release create ${{ inputs.version }} --title "Release ${{ inputs.version }}" --notes "Release ${{ inputs.version }}"
+          gh release create ${{ inputs.version }} --title 'Release ${{ inputs.version }}' --notes 'Release ${{ inputs.version }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -59,6 +61,6 @@ jobs:
 
       - name: Create pull request
         run: |
-          gh pr create --title "build: release ${{ inputs.version }}" --body "Release ${{ inputs.version }}" --base master --head gh/release-${{ inputs.version }}
+          gh pr create --title 'build: release ${{ inputs.version }}' --body 'Release ${{ inputs.version }}' --base master --head gh/release-${{ inputs.version }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

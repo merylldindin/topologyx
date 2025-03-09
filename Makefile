@@ -2,7 +2,7 @@ PYTHON_FILES = `(find . -iname "*.py" -not -path "./.venv/*")`
 KERNEL_FILES = `(find . -iname "*.ipynb" -not -path "./.venv/*")`
 
 install: ## Install package dependencies
-	poetry install --sync --with dev,types
+	poetry install --with dev,types
 
 install-hard: ## Install package dependencies from scratch
 	rm -rf .venv/

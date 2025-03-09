@@ -42,7 +42,7 @@ readme = "README.md"
 version = "1.0.0"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.13"
+python = ">=3.12,<3.14"
 gudhi = "^3.10.1"
 keras = "^3.4.1"
 matplotlib = "^3.9.0"
@@ -89,7 +89,6 @@ show-fixes = true
 [tool.ruff.lint]
 dummy-variable-rgx = "_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"
 ignore = ["D100", "D101", "E501"]
-ignore-init-module-imports = true
 select = ["E", "F", "I001", "W"]
 
 [tool.ruff.lint.isort]
