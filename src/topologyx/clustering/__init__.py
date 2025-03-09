@@ -1,3 +1,6 @@
+from topologyx.clustering.unionfind import UnionFind
+from topologyx.clustering.utils import plot_clusters, plot_density, plot_persistence
+
 from enum import Enum
 from typing import Any
 
@@ -7,8 +10,6 @@ from scipy.stats import gaussian_kde as kde
 from sklearn.datasets import make_blobs, make_circles, make_moons
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KDTree
-from topologyx.clustering.unionfind import UnionFind
-from topologyx.clustering.utils import plot_clusters, plot_density, plot_persistence
 
 
 class ClusterStructure(Enum):

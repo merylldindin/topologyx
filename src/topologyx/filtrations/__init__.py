@@ -1,9 +1,3 @@
-from enum import Enum
-from typing import Any
-
-import gudhi
-import numpy as np
-from sklearn.neighbors import KDTree
 from topologyx.filtrations.utils import (
     build_betti_curve,
     build_persistence_image,
@@ -12,6 +6,13 @@ from topologyx.filtrations.utils import (
     plot_persistence_landscapes,
     plot_persistences,
 )
+
+from enum import Enum
+from typing import Any
+
+import gudhi
+import numpy as np
+from sklearn.neighbors import KDTree
 
 
 class FiltrationType(Enum):

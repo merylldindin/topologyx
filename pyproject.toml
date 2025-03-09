@@ -43,23 +43,23 @@ version = "1.0.2"
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.14"
-gudhi = "^3.10.1"
-keras = "^3.4.1"
-matplotlib = "^3.9.0"
-numpy = "^2.0.0"
-plotly = "^5.22.0"
-scikit-learn = "^1.5.1"
-tqdm = "^4.66.4"
+gudhi = "^3.11.0"
+keras = "^3.9.0"
+matplotlib = "^3.10.1"
+numpy = "^2.2.3"
+plotly = "^6.0.0"
+scikit-learn = "^1.6.1"
+tqdm = "^4.67.1"
 
 [tool.poetry.group.dev]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-black = "^25.0.0"
-mypy = "^1.0"
-pytest = "^8.1.0"
+black = "^25.1.0"
+mypy = "^1.15.0"
+pytest = "^8.3.5"
 pytest-cov = "^6.0.0"
-ruff = "^0.5.0"
+ruff = "^0.9.10"
 
 [tool.poetry.group.types]
 optional = true
