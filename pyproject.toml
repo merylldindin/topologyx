@@ -14,12 +14,12 @@ classifiers = [
 ]
 dependencies = [
     "gudhi==3.11.0",
-    "keras==3.12.0",
-    "marimo>=0.18.4",
-    "matplotlib==3.10.1",
-    "numpy==2.2.3",
-    "plotly==6.0.0",
-    "scikit-learn==1.6.1",
+    "keras==3.13.0",
+    "marimo==0.18.4",
+    "matplotlib==3.10.8",
+    "numpy==2.4.0",
+    "plotly==6.5.0",
+    "scikit-learn==1.8.0",
     "tqdm==4.67.1",
 ]
 
@@ -34,7 +34,7 @@ Repository = "https://github.com/merylldindin/topologyx"
 dev = [
     "commitizen==4.10.1",
     "pre-commit==4.5.1",
-    "pytest==9.0.0",
+    "pytest==9.0.2",
     "pytest-cov==7.0.0",
     "ruff==0.14.10",
     "ty==0.0.7",
@@ -51,12 +51,6 @@ packages = ["src/topologyx"]
 [tool.pytest.ini_options]
 addopts = "--no-header -rA"
 pythonpath = ["."]
-filterwarnings = [
-    "ignore:'oneOf' deprecated:DeprecationWarning",
-    "ignore:'parseString' deprecated:DeprecationWarning",
-    "ignore:'resetCache' deprecated:DeprecationWarning",
-    "ignore:'enablePackrat' deprecated:DeprecationWarning",
-]
 
 [tool.ruff]
 extend-include = ["*.toml"]
