@@ -101,7 +101,6 @@ class TomatoClustering:
                     ),
                 )
 
-        self.simplex.initialize_filtration()
         self.simplex.persistence()
 
         if visualize:

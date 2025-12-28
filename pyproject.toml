@@ -51,6 +51,12 @@ packages = ["src/topologyx"]
 [tool.pytest.ini_options]
 addopts = "--no-header -rA"
 pythonpath = ["."]
+filterwarnings = [
+    "ignore:'oneOf' deprecated:DeprecationWarning",
+    "ignore:'parseString' deprecated:DeprecationWarning",
+    "ignore:'resetCache' deprecated:DeprecationWarning",
+    "ignore:'enablePackrat' deprecated:DeprecationWarning",
+]
 
 [tool.ruff]
 extend-include = ["*.toml"]

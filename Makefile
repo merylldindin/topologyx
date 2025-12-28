@@ -26,10 +26,10 @@ types: ## Type check with ty
 	@uv run ty check
 
 test: ## Run test suite
-	@echo "No tests directory yet"
+	@uv run pytest tests/
 
 test-coverage: ## Run tests with coverage
-	@echo "No tests directory yet"
+	@uv run pytest tests/ --cov=src/topologyx --cov-report=term-missing
 
 uv-lock: ## Lock dependencies
 	@uv lock
