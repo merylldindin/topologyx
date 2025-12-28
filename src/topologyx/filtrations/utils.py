@@ -147,12 +147,12 @@ def plot_betti_curves(upper_levels: np.ndarray, lower_levels: np.ndarray) -> Non
     # sourcery skip: extract-duplicate-method
     plt.figure(figsize=(18, 3))
     plt.subplot(1, 2, 1)
-    plt.title('Upper Levels Betti Curve')
+    plt.title("Upper Levels Betti Curve")
     plt.plot(upper_levels)
     plt.xticks([])
     plt.yticks([])
     plt.subplot(1, 2, 2)
-    plt.title('Lower Levels Betti Curve')
+    plt.title("Lower Levels Betti Curve")
     plt.plot(lower_levels)
     plt.xticks([])
     plt.yticks([])
@@ -167,13 +167,13 @@ def plot_persistence_landscapes(
     # sourcery skip: extract-duplicate-method
     plt.figure(figsize=(18, 3))
     plt.subplot(1, 2, 1)
-    plt.title('Upper Levels Persistence Landscapes')
+    plt.title("Upper Levels Persistence Landscapes")
     for component in upper_levels:
         plt.plot(component)
     plt.xticks([])
     plt.yticks([])
     plt.subplot(1, 2, 2)
-    plt.title('Lower Levels Persistence Landscapes')
+    plt.title("Lower Levels Persistence Landscapes")
     for component in lower_levels:
         plt.plot(component)
     plt.xticks([])

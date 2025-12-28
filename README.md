@@ -19,7 +19,7 @@
     <img src="https://img.shields.io/pypi/v/topologyx.svg?style=for-the-badge" alt="pypi version"/>
   </a>
 
-  <a href="https://github.com/merylldindin/topologyx/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/merylldindin/topologyx/blob/main/LICENSE" target="_blank">
     <img src="https://img.shields.io/github/license/merylldindin/topologyx.svg?style=for-the-badge" alt="license"/>
   </a>
 </div>
@@ -55,7 +55,7 @@ Read more about applied TDA:
 ## Built With
 
 - [Python](https://www.python.org/)
-- [Poetry](https://python-poetry.org/)
+- [uv](https://docs.astral.sh/uv/)
 - [Gudhi](https://gudhi.inria.fr/)
 - [Keras](https://keras.io/)
 
@@ -63,8 +63,8 @@ Read more about applied TDA:
 
 ```bash
 pip install topologyx
-# or with poetry
-poetry add topologyx
+# or with uv
+uv add topologyx
 ```
 
 ### How To Use
@@ -89,13 +89,17 @@ _ = tomato.fit_predict(n_clusters=3, visualize=True)
 ```bash
 git clone https://github.com/merylldindin/topologyx
 # install dependencies
-make install
+make setup
 ```
 
-### Using Notebooks
+### Using Examples
 
-`ipykernel` comes out of the box with our dependencies, so you can directly use the notebooks provided in the `examples` folder. I use `VSCode` as engine for my jupyter notebooks.
+Examples are provided as [Marimo](https://marimo.io/) notebooks - reactive Python notebooks that are git-friendly (pure `.py` files). Launch the example server with:
 
-**Tutorial: Filtration of a 3D shape:** This [notebook](https://github.com/merylldindin/topologyx/blob/master/examples/filtrations.ipynb) gives a simple example of how to handle three-dimensional shapes. The whole example is based on the height as filtration function, so not invariant in space. However, it gives a pretty good idea of what the output of a topological analysis may give.
+```bash
+make marimo
+```
 
-**Tutorial: ToMaTo clustering:** This [notebook](https://github.com/merylldindin/topologyx/blob/master/examples/clustering.ipynb) rather focus on a specific strength of TDA: its robustness to detect centroids in dataset, along with its ability to record the relationships between each point, enabling us to retrace the whole structure of the centroids. Examples are provided in the notebook.
+**Filtration of a 3D shape:** `examples/filtrations.py` demonstrates how to handle three-dimensional shapes using height as a filtration function, showing persistence diagrams, Betti curves, and persistence landscapes.
+
+**ToMaTo clustering:** `examples/clustering.py` showcases TDA's strength for clustering - detecting centroids and recording relationships between points across various data distributions.

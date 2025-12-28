@@ -39,7 +39,7 @@ I recommend working with VSCode, an IDE that does not need to be presented. Inte
 A comment that will come back often in PR reviews is the spacing in your code. The overall strategy is to split your code by functional blocks, aka adding empty lines to differentiate loops, if-statements or clusters of similar actions. There are also a few more guidelines:
 
 1. Return statements should be isolated from any code blocks
-2. Do not use spacing betIen a function name and the first line of code
+2. Do not use spacing between a function name and the first line of code
 
 An application of those guidelines is illustrated below:
 
@@ -71,13 +71,28 @@ The guidelines are the same for `assert` statements than they are for `return` s
 
 ### Helpers:
 
-I use Python 3.12 so make sure to install a clean venv environment depending on a 3.12.\* version. I rely on [poetry](https://python-poetry.org/) for environment management.
+I use Python 3.13 so make sure to install a clean venv environment depending on a 3.13.\* version. I rely on [uv](https://docs.astral.sh/uv/) for environment and package management.
 
 I use some packages to help with code quality, those are:
 
-- [black](https://pypi.org/project/black/) configured in `pyproject.toml`
-- [ruff](https://pypi.org/project/ruff/) configured in `pyproject.toml`
-- [mypy](https://pypi.org/project/mypy/) configured in `pyproject.toml`
+- [ruff](https://docs.astral.sh/ruff/) configured in `pyproject.toml` for linting and formatting
+- [ty](https://docs.astral.sh/ty/) configured in `pyproject.toml` for type checking
+
+### Pre-commit Hooks:
+
+This project uses pre-commit hooks to ensure code quality before each commit. After cloning the repository, run:
+
+```bash
+make setup
+```
+
+This will install all dependencies and set up the pre-commit hooks, including:
+
+- Trailing whitespace removal
+- End of file fixer
+- YAML/TOML syntax checking
+- Ruff formatting and linting
+- Commitizen for conventional commit messages
 
 ### Naming Conventions:
 
@@ -87,7 +102,7 @@ That is exactly why it is important everyone follow guidelines regarding naming 
 
 1. Do not use abbreviations
 2. Use at least 2 words for function names
-3. Boolean variables should be infered from their name (e.g. start with `is_` or `has_`)
+3. Boolean variables should be inferred from their name (e.g. start with `is_` or `has_`)
 4. Use `snake_case` for folder names, function names
 5. Use `PascalCase` for class names
 6. Use `SCREAMING_SNAKE_CASE` for constants
@@ -99,7 +114,7 @@ Typing is key to maintainability. It will increase the readability of the code, 
 
 I rely on dynamic typing via [Pydantic](https://pydantic-docs.helpmanual.io/) and use static typing via VSCode for now. To enable static typing, ensure that you are using the VSCode extension [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
 
-Static typing is handled via the help of [mypy](https://pydantic-docs.helpmanual.io/mypy_plugin/).
+Static typing is handled via the help of [ty](https://docs.astral.sh/ty/) from Astral.
 
 ## Git Conventions
 
@@ -110,3 +125,5 @@ I have a simple convention for branch naming: `{initials}/{descriptive-kebab-cas
 ### Commits:
 
 The Conventional Commits specification is a light convention on top of commit messages. It provides an easy set of rules for creating an explicit commit history; which makes it easier to write automated tools on top of. This convention dovetails with SemVer, by describing the features, fixes, and breaking changes made in commit messages. Learn more [here](https://www.conventionalcommits.org/en/v1.0.0/).
+
+Pre-commit hooks enforce conventional commits via [commitizen](https://commitizen-tools.github.io/commitizen/).

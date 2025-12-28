@@ -9,58 +9,66 @@ on:
         description: 'Semantic version tag (e.g., 1.2.3)'
         required: true
 
-env:
-  PYTHON_VERSION: '3.12'
-
 jobs:
   workflow:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v4
+      - name: Checkout Codebase
+        uses: actions/checkout@v6
 
-      - name: Setup python ${{ env.PYTHON_VERSION }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
 
-      - name: Setup poetry
+      - name: Setup Python
+        run: uv python install 3.13
+
+      - name: Checkout New Release Branch
+        run: git checkout -b gh/release-${{ inputs.version }}
+
+      - name: Update Version in pyproject.toml
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
+          python -c "
+          import re
+          with open('pyproject.toml', 'r') as f:
+              content = f.read()
+          content = re.sub(
+              r'(\[project\][^\[]*?)version = \"[^\"]+\"',
+              r'\1version = \"${{ inputs.version }}\"',
+              content,
+              count=1,
+              flags=re.DOTALL
+          )
+          with open('pyproject.toml', 'w') as f:
+              f.write(content)
+          "
 
-      - name: Checkout new release branch
-        run: |
-          git checkout -b gh/release-${{ inputs.version }}
-
-      - name: Update version in `pyproject.toml`
-        run: |
-          poetry version ${{ inputs.version }}
-
-      - name: Commit version bump
+      - name: Commit Version Bump
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
           git add pyproject.toml
           git commit -m 'build: bump version to ${{ inputs.version }}'
-          git push origin master
+          git push origin main
 
-      - name: Push changes to release branch
-        run: |
-          git push origin gh/release-${{ inputs.version }}
+      - name: Push Changes to Release Branch
+        run: git push origin gh/release-${{ inputs.version }}
 
-      - name: Create release
+      - name: Create Release
         run: |
           gh release create ${{ inputs.version }} --title 'Release ${{ inputs.version }}' --notes 'Release ${{ inputs.version }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to PyPI
-        run: |
-          poetry publish --build --username __token__ --password ${{ secrets.PYPI_TOKEN }}
+      - name: Build Package
+        run: uv build
 
-      - name: Create pull request
+      - name: Publish to PyPI
+        run: uv publish --token ${{ secrets.PYPI_TOKEN }}
+
+      - name: Create Pull Request
         run: |
-          gh pr create --title 'build: release ${{ inputs.version }}' --body 'Release ${{ inputs.version }}' --base master --head gh/release-${{ inputs.version }}
+          gh pr create --title 'build: release ${{ inputs.version }}' --body 'Release ${{ inputs.version }}' --base main --head gh/release-${{ inputs.version }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

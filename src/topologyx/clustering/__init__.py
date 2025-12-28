@@ -1,6 +1,3 @@
-from topologyx.clustering.unionfind import UnionFind
-from topologyx.clustering.utils import plot_clusters, plot_density, plot_persistence
-
 from enum import Enum
 from typing import Any
 
@@ -11,14 +8,17 @@ from sklearn.datasets import make_blobs, make_circles, make_moons
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KDTree
 
+from topologyx.clustering.unionfind import UnionFind
+from topologyx.clustering.utils import plot_clusters, plot_density, plot_persistence
+
 
 class ClusterStructure(Enum):
-    ANISOTROPY = 'anisotropy'
-    BLOBS = 'blobs'
-    CIRCLES = 'circles'
-    MOONS = 'moons'
-    RANDOM = 'random'
-    VARIANCES = 'variances'
+    ANISOTROPY = "anisotropy"
+    BLOBS = "blobs"
+    CIRCLES = "circles"
+    MOONS = "moons"
+    RANDOM = "random"
+    VARIANCES = "variances"
 
 
 class ClusterGenerator:
@@ -84,7 +84,7 @@ class TomatoClustering:
         vector_density = self.estimate_density(visualize=visualize)
 
         self.simplex = gudhi.SimplexTree()  # type: ignore
-        self.kd_tree = KDTree(self.x, metric='euclidean')
+        self.kd_tree = KDTree(self.x, metric="euclidean")
 
         for index in range(self.x.shape[0]):
             self.simplex.insert([index], filtration=-vector_density[index])
@@ -157,7 +157,7 @@ class TomatoClustering:
         n_neighbors: int = 6,
         visualize: bool = False,
     ) -> np.ndarray:
-        if not hasattr(self, 'simplex'):
+        if not hasattr(self, "simplex"):
             self.estimate_clusters(n_neighbors=n_neighbors, visualize=visualize)
 
         _vertexes, filtrations = [], []
@@ -185,9 +185,9 @@ class TomatoClustering:
         indexes = np.asarray(list(union_find.indexes_to_objects.values()))
         pointers = np.asarray(list(union_find.pointers.values()))
 
-        for object in np.unique(pointers):
-            self.clusters.append(indexes[np.nonzero(pointers == object)[0]])
-            self.centroids.append(union_find.indexes_to_objects[object])
+        for pointer in np.unique(pointers):
+            self.clusters.append(indexes[np.nonzero(pointers == pointer)[0]])
+            self.centroids.append(union_find.indexes_to_objects[int(pointer)])
 
         if visualize:
             plot_clusters(self.x, self.clusters, self.centroids)

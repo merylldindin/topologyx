@@ -1,8 +1,8 @@
-from topologyx.channels.silhouette import SilhouetteLayer
-
 from typing import Any
 
 from keras import layers
+
+from topologyx.channels.silhouette import SilhouetteLayer
 
 
 def betti_channel(input: Any, args: dict[str, Any], dropout: float = 0.3) -> Any:

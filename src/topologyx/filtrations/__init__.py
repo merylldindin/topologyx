@@ -1,3 +1,23 @@
+from enum import Enum
+from typing import Protocol
+
+import gudhi
+import numpy as np
+from sklearn.neighbors import KDTree
+
+
+class SimplexTreeProtocol(Protocol):
+    """Protocol defining the interface for gudhi SimplexTree objects."""
+
+    def persistence(self) -> list[tuple[int, tuple[float, float]]]: ...
+    def persistence_intervals_in_dimension(
+        self, dimension: int
+    ) -> list[tuple[float, float]]: ...
+    def insert(self, simplex: list[int], filtration: float = 0.0) -> bool: ...
+    def set_dimension(self, dimension: int) -> None: ...
+    def initialize_filtration(self) -> None: ...
+
+
 from topologyx.filtrations.utils import (
     build_betti_curve,
     build_persistence_image,
@@ -7,18 +27,11 @@ from topologyx.filtrations.utils import (
     plot_persistences,
 )
 
-from enum import Enum
-from typing import Any
-
-import gudhi
-import numpy as np
-from sklearn.neighbors import KDTree
-
 
 class FiltrationType(Enum):
-    DTM = 'dtm'
-    SIMPLE = 'simple'
-    SUBLEVEL = 'sublevel'
+    DTM = "dtm"
+    SIMPLE = "simple"
+    SUBLEVEL = "sublevel"
 
 
 class Filtration:
@@ -29,7 +42,7 @@ class Filtration:
         leaf_size: int = 30,
     ) -> None:
         self.vector = vector
-        self.kd_tree = KDTree(self.vector, leaf_size=leaf_size, metric='euclidean')
+        self.kd_tree = KDTree(self.vector, leaf_size=leaf_size, metric="euclidean")
 
         if use_alpha:
             self.simplex = gudhi.AlphaComplex(points=self.vector)  # type: ignore
@@ -74,7 +87,7 @@ class Filtration:
                         )
 
             else:
-                raise ValueError('Dimension not supported')
+                raise ValueError("Dimension not supported")
 
             self.simplex.initialize_filtration()
 
@@ -86,13 +99,14 @@ class Filtration:
     def get_vertexes(self, n_neighbors: int) -> np.ndarray:
         return self.get_density_estimate(self.vector, n_neighbors)
 
-    def apply_sublevel_filtration(self, n_neighbors: int = 5) -> Any:
+    def apply_sublevel_filtration(self, n_neighbors: int = 5) -> SimplexTreeProtocol:
         simplex = gudhi.SimplexTree()  # type: ignore
         vertexes = self.get_vertexes(n_neighbors)
 
         for pair in self.simplex.get_filtration():  # type: ignore
             simplex.insert(
-                pair[0], filtration=max(pair[1], max(vertexes[i] for i in pair[0]))  # type: ignore
+                pair[0],
+                filtration=max(pair[1], max(vertexes[i] for i in pair[0])),  # type: ignore
             )
 
         simplex.set_dimension(self.vector.shape[1])
@@ -137,7 +151,9 @@ class Filtration:
 
         return max(self.get_density_estimate(np.asarray(points), n_neighbors))
 
-    def apply_dtm_filtration(self, n_neighbors: int = 5, n_divisions: int = 5) -> Any:
+    def apply_dtm_filtration(
+        self, n_neighbors: int = 5, n_divisions: int = 5
+    ) -> SimplexTreeProtocol:
         simplex = gudhi.SimplexTree()  # type: ignore
         vertexes = self.get_vertexes(n_neighbors)
 
@@ -169,7 +185,7 @@ class Filtration:
                 )
 
             else:
-                raise ValueError('Dimension not supported')
+                raise ValueError("Dimension not supported")
 
         simplex.set_dimension(self.vector.shape[1])
         simplex.initialize_filtration()
@@ -180,18 +196,22 @@ class Filtration:
     def build_persistence_diagram(
         self, filtration_type: FiltrationType | None = None, dimension: int = 0
     ) -> None:
+        simplex_tree: SimplexTreeProtocol = self.simplex  # type: ignore[assignment]
+
         match filtration_type:
             case FiltrationType.DTM:
-                self.simplex = self.apply_dtm_filtration()
+                simplex_tree = self.apply_dtm_filtration()
             case FiltrationType.SUBLEVEL:
-                self.simplex = self.apply_sublevel_filtration()
+                simplex_tree = self.apply_sublevel_filtration()
             case _:
-                self.simplex.persistence()  # type: ignore
+                simplex_tree.persistence()
 
         self.simplex = np.asarray(
             [
                 [interval[0], interval[1]]
-                for interval in self.simplex.persistence_intervals_in_dimension(dimension)  # type: ignore
+                for interval in simplex_tree.persistence_intervals_in_dimension(
+                    dimension
+                )
                 if interval[1] < np.inf
             ]
         )
@@ -256,7 +276,9 @@ class Levels:
         self.upper_simplex.initialize_filtration()
         self.lower_simplex.initialize_filtration()
 
-    def build_persistence_diagram(self, visualize: bool = False) -> tuple[
+    def build_persistence_diagram(
+        self, visualize: bool = False
+    ) -> tuple[
         np.ndarray,
         np.ndarray,
     ]:

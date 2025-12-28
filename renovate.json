@@ -1,39 +1,49 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
   "assignees": ["merylldindin"],
+  "gitIgnoredAuthors": ["renovate[bot]"],
   "dependencyDashboard": true,
   "dependencyDashboardAutoclose": true,
-  "extends": ["config:base"],
+  "rebaseWhen": "conflicted",
+  "schedule": ["before 6am on Monday"],
+  "timezone": "Europe/Paris",
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "urgent"],
+    "assignees": ["merylldindin"],
+    "minimumReleaseAge": "0 days"
+  },
+  "osvVulnerabilityAlerts": true,
+  "rangeStrategy": "pin",
+  "ignoreDeps": ["python"],
   "packageRules": [
     {
-      "automerge": true,
-      "automergeSchedule": "0 0 4 ? * MON *",
-      "groupName": "python dependencies (minor)",
-      "labels": ["dependencies", "python", "automerge"],
-      "matchDepTypes": ["dependencies", "dev"],
-      "matchManagers": ["poetry"],
-      "matchUpdateTypes": [
-        "bump",
-        "digest",
-        "lockFileMaintenance",
-        "minor",
-        "patch",
-        "pin",
-        "rollback"
-      ],
-      "semanticCommitType": "build"
+      "description": "Ignore Python version updates",
+      "enabled": false,
+      "matchManagers": ["uv"],
+      "matchPackageNames": ["python"]
     },
     {
       "automerge": true,
-      "automergeSchedule": "0 0 4 ? * MON *",
-      "groupName": "python dependencies",
-      "labels": ["dependencies", "python", "automerge"],
+      "labels": ["python", "minor"],
+      "groupName": "python dependencies (minor)",
+      "matchManagers": ["uv"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "minimumReleaseAge": "7 days",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "automerge": true,
+      "labels": ["python", "major"],
+      "groupName": "python dependencies (major)",
       "matchDepTypes": ["dev"],
-      "matchManagers": ["poetry"],
+      "matchManagers": ["uv"],
       "matchUpdateTypes": ["major"],
-      "semanticCommitType": "build"
+      "minimumReleaseAge": "14 days",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
     }
-  ],
-  "platformAutomerge": true,
-  "schedule": ["every weekend"]
+  ]
 }

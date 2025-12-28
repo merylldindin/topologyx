@@ -11,7 +11,7 @@ class SilhouetteLayer(layers.Layer):  # type: ignore
 
     def build(self, input_shape: tuple[int, ...]) -> None:
         self.kernel = self.add_weight(
-            name='kernel',
+            name="kernel",
             shape=(1, input_shape[-2]),
             initializer=initializers.Constant(value=1.0),
             trainable=True,

@@ -1,48 +1,38 @@
-name: Continous Integration
+name: Continuous Integration
 
 run-name: 'ci: continuous integration'
 
-on: [pull_request, merge_group, workflow_dispatch]
+on:
+  pull_request:
+  merge_group:
+  workflow_dispatch:
 
 jobs:
   workflow:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: ['3.12', '3.13']
+    timeout-minutes: 10
 
     steps:
       - name: Checkout Codebase
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+          cache-dependency-glob: '**/uv.lock'
 
-      - name: Cache Dependencies
-        id: cache-dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pypoetry
-            ./.venv/
-          key: topologyx-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
-
-      - name: Setup Poetry
-        run: curl -sSL https://install.python-poetry.org | python3 -
+      - name: Setup Python
+        run: uv python install 3.13
 
       - name: Install Dependencies
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --with dev,types
+        run: uv sync
 
-      - name: Run Black
-        run: make black
+      - name: Run Ruff Format Check
+        run: make format
 
-      - name: Run MyPy
-        run: make mypy
+      - name: Run Ruff Lint
+        run: make lint
 
-      - name: Run Ruff
-        run: make ruff
+      - name: Run Type Check
+        run: make types
