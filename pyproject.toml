@@ -17,7 +17,7 @@ dependencies = [
     "keras==3.13.1",
     "marimo==0.18.4",
     "matplotlib==3.10.8",
-    "numpy==2.4.0",
+    "numpy==2.4.1",
     "plotly==6.5.0",
     "scikit-learn==1.8.0",
     "tqdm==4.67.1",
