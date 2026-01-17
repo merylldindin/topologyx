@@ -5,7 +5,7 @@ description = "Topology data analysis routines"
 authors = [{ name = "Meryll Dindin", email = "merylldin@gmail.com" }]
 readme = "README.md"
 license = { text = "Apache-2.0" }
-requires-python = "==3.13.*"
+requires-python = ">=3.13"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -13,14 +13,13 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "gudhi==3.11.0",
-    "keras==3.13.1",
-    "marimo==0.18.4",
-    "matplotlib==3.10.8",
-    "numpy==2.4.1",
-    "plotly==6.5.0",
-    "scikit-learn==1.8.0",
-    "tqdm==4.67.1",
+    "gudhi>=3.10.0",
+    "keras>=3.0.0",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "plotly>=5.18.0",
+    "scikit-learn>=1.4.0",
+    "tqdm>=4.66.0",
 ]
 
 [project.scripts]
