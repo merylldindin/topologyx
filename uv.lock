@@ -1402,7 +1402,7 @@ wheels = [
 
 [[package]]
 name = "topologyx"
-version = "1.1.0"
+version = "1.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "gudhi" },
@@ -1427,13 +1427,13 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gudhi", specifier = ">=3.10.0" },
+    { name = "gudhi", specifier = "==3.11.0" },
     { name = "keras", specifier = ">=3.0.0" },
-    { name = "matplotlib", specifier = ">=3.8.0" },
-    { name = "numpy", specifier = ">=1.26.0" },
-    { name = "plotly", specifier = ">=5.18.0" },
-    { name = "scikit-learn", specifier = ">=1.4.0" },
-    { name = "tqdm", specifier = ">=4.66.0" },
+    { name = "matplotlib", specifier = "==3.10.8" },
+    { name = "numpy", specifier = "==2.4.1" },
+    { name = "plotly", specifier = "==6.5.0" },
+    { name = "scikit-learn", specifier = "==1.8.0" },
+    { name = "tqdm", specifier = "==4.67.1" },
 ]
 
 [package.metadata.requires-dev]
