@@ -21,29 +21,39 @@
     {
       "description": "Ignore Python version updates",
       "enabled": false,
-      "matchManagers": ["uv"],
+      "matchCategories": ["python"],
       "matchPackageNames": ["python"]
     },
     {
       "automerge": true,
       "labels": ["python", "minor"],
-      "groupName": "python dependencies (minor)",
-      "matchManagers": ["uv"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "minor python dependencies",
+      "matchDepTypes": ["dependencies", "dev", "types"],
+      "matchCategories": ["python"],
+      "matchUpdateTypes": [
+        "bump",
+        "digest",
+        "lockFileMaintenance",
+        "minor",
+        "patch",
+        "pin",
+        "rollback"
+      ],
       "minimumReleaseAge": "7 days",
       "semanticCommitType": "build",
-      "semanticCommitScope": "deps"
+      "semanticCommitScope": "deps",
+      "matchPackageNames": ["!python"]
     },
     {
       "automerge": true,
       "labels": ["python", "major"],
-      "groupName": "python dependencies (major)",
-      "matchDepTypes": ["dev"],
-      "matchManagers": ["uv"],
+      "matchDepTypes": ["dev", "types"],
+      "matchCategories": ["python"],
       "matchUpdateTypes": ["major"],
       "minimumReleaseAge": "14 days",
       "semanticCommitType": "build",
-      "semanticCommitScope": "deps"
+      "semanticCommitScope": "deps",
+      "matchPackageNames": ["!python"]
     }
   ]
 }
