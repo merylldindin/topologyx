@@ -1,0 +1,21 @@
+uv.lock
+  ai_agent 3,456,1079
+pyproject.toml
+  s_97468892e09482::t_6cfb3deb76da51 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "85857db4ec1d90c9d91a36c1e2e0bc00eafe1c67",
+  "prompts": {},
+  "sessions": {
+    "s_97468892e09482": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7c7cd029-5242-4694-a609-34cb45a37527",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
