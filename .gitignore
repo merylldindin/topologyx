@@ -12,3 +12,11 @@
 # package
 dist/
 *.egg-info/
+
+# claude
+.claude/*
+!.claude/agents
+!.claude/references
+!.claude/rules
+!.claude/skills
+!.claude/settings.json
