@@ -1,0 +1,19 @@
+.gitignore
+  s_a25a7c97ecab83::t_8eb59a1693a21b 15-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "13771b87db08b53341da9af150361f1d456ca02c",
+  "prompts": {},
+  "sessions": {
+    "s_a25a7c97ecab83": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4440007b-07b8-4421-88b7-c6085684f081",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
