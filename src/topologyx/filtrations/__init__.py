@@ -103,10 +103,10 @@ class Filtration:
         simplex = gudhi.SimplexTree()  # type: ignore
         vertexes = self.get_vertexes(n_neighbors)
 
-        for pair in self.simplex.get_filtration():  # type: ignore
+        for pair in self.simplex.get_filtration():
             simplex.insert(
                 pair[0],
-                filtration=max(pair[1], max(vertexes[i] for i in pair[0])),  # type: ignore
+                filtration=max(pair[1], max(vertexes[i] for i in pair[0])),
             )
 
         simplex.set_dimension(self.vector.shape[1])
@@ -157,7 +157,7 @@ class Filtration:
         simplex = gudhi.SimplexTree()  # type: ignore
         vertexes = self.get_vertexes(n_neighbors)
 
-        for pair in self.simplex.get_filtration():  # type: ignore
+        for pair in self.simplex.get_filtration():
             if len(pair[0]) == 1:
                 simplex.insert(pair[0], filtration=vertexes[pair[0][0]])
 
@@ -196,7 +196,7 @@ class Filtration:
     def build_persistence_diagram(
         self, filtration_type: FiltrationType | None = None, dimension: int = 0
     ) -> None:
-        simplex_tree: SimplexTreeProtocol = self.simplex  # type: ignore[assignment]
+        simplex_tree: SimplexTreeProtocol = self.simplex
 
         match filtration_type:
             case FiltrationType.DTM:
@@ -206,7 +206,7 @@ class Filtration:
             case _:
                 simplex_tree.persistence()
 
-        self.simplex = np.asarray(
+        self.diagram = np.asarray(
             [
                 [interval[0], interval[1]]
                 for interval in simplex_tree.persistence_intervals_in_dimension(
@@ -223,7 +223,7 @@ class Filtration:
         n_points: int = 100,
     ) -> np.ndarray:
         return build_betti_curve(
-            self.simplex,
+            self.diagram,
             minimum=minimum,
             maximum=maximum,
             n_points=n_points,
@@ -237,7 +237,7 @@ class Filtration:
         n_points: int = 100,
     ) -> np.ndarray:
         return build_persistence_landscape(
-            self.simplex,
+            self.diagram,
             minimum=minimum,
             maximum=maximum,
             n_landscapes=n_landscapes,
@@ -252,7 +252,7 @@ class Filtration:
         variance: float = 1e-8,
     ) -> np.ndarray:
         return build_persistence_image(
-            self.simplex,
+            self.diagram,
             x_extremas,
             y_extremas,
             image_size,

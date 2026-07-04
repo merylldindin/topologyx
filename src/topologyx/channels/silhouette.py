@@ -3,7 +3,7 @@ from typing import Any
 from keras import initializers, layers, ops
 
 
-class SilhouetteLayer(layers.Layer):  # type: ignore
+class SilhouetteLayer(layers.Layer):
     def __init__(self, dimension: int, **kwargs: Any) -> None:
         self.dimension = dimension
 

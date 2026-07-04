@@ -23,7 +23,7 @@ def build_betti_curve(
     if maximum is None:
         maximum = np.max(persistence)
 
-    linspace = np.linspace(minimum, maximum, num=n_points)  # type: ignore
+    linspace = np.linspace(minimum, maximum, num=n_points)
 
     return np.zeros(n_points) + sum(
         functionize(linspace, component) for component in persistence
@@ -44,7 +44,7 @@ def build_persistence_landscape(
         maximum = np.max(persistence)
 
     support = np.zeros((n_landscapes, n_points))
-    linspace = np.linspace(minimum, maximum, num=n_points)  # type: ignore
+    linspace = np.linspace(minimum, maximum, num=n_points)
 
     for i, value in enumerate(linspace):
         _vector = []

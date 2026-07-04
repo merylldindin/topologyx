@@ -35,7 +35,7 @@ class ClusterGenerator:
     def generate(self) -> tuple[np.ndarray | None, ...]:
         match self.structure:
             case ClusterStructure.ANISOTROPY:
-                x, y = make_blobs(n_samples=self.n_samples, random_state=self.randomize)  # type: ignore
+                x, y = make_blobs(n_samples=self.n_samples, random_state=self.randomize)
                 offset = [[0.60834549, -0.63667341], [-0.40887718, 0.85253229]]
 
                 return (np.dot(x, offset), y)
@@ -138,7 +138,7 @@ class TomatoClustering:
 
                     if (
                         root != parent
-                        and min(n_simplexes[parent], n_simplexes[root])  # type: ignore
+                        and min(n_simplexes[parent], n_simplexes[root])
                         < n_simplexes[vertex] + tau
                     ):
                         union_find.union(parent, root)

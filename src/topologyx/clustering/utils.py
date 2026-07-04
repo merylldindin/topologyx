@@ -24,8 +24,8 @@ def plot_density(tensor: np.ndarray, n_bins: int, vector_density: np.ndarray) ->
     x, y = tensor.T
 
     u, v = np.mgrid[
-        int(x.min()) : int(x.max()) : n_bins * 1j,  # type: ignore
-        int(y.min()) : int(y.max()) : n_bins * 1j,  # type: ignore
+        int(x.min()) : int(x.max()) : n_bins * 1j,
+        int(y.min()) : int(y.max()) : n_bins * 1j,
     ]
 
     kernel_density = kde(tensor.T)(np.vstack([u.flatten(), v.flatten()]))
