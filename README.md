@@ -33,7 +33,7 @@
   </p>
 </div>
 
-## <summary>Table of Contents</summary>
+## Table of Contents
 
 <ol>
     <li><a href="#about-topologyx">About TopologyX</a></li>
@@ -70,7 +70,7 @@ uv add topologyx
 ### How To Use
 
 ```python
-from topologyx.filtrations import Filtration
+from topologyx.filtrations import Filtration, FiltrationType
 
 filtration = Filtration(data, use_alpha=False)
 filtration.build_persistence_diagram(filtration_type=FiltrationType.SIMPLE, dimension=0)
