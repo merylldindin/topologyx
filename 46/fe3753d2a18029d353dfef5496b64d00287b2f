@@ -1,0 +1,38 @@
+src/topologyx/channels/silhouette.py
+  s_feb4384680c329::t_1bb1a79b0e7fc0 6
+pyproject.toml
+  s_feb4384680c329::t_8c5a66352d8f0c 39
+src/topologyx/clustering/__init__.py
+  s_feb4384680c329::t_7d73eef5a125fc 141
+  s_feb4384680c329::t_7415067b14dbf5 38
+src/topologyx/filtrations/utils.py
+  s_feb4384680c329::t_ecafdbb656bac9 47
+  s_feb4384680c329::t_8ee15031ea3392 26
+src/topologyx/clustering/utils.py
+  s_feb4384680c329::t_52aaaa1d534846 27-28
+src/topologyx/filtrations/__init__.py
+  s_feb4384680c329::t_69a26c5d591431 199,209
+  s_feb4384680c329::t_115e60b0be9084 226
+  s_feb4384680c329::t_fe1b858f5ce6ee 240
+  s_feb4384680c329::t_3c20fd72fb4514 109
+  s_feb4384680c329::t_a57971dc01a144 255
+  s_feb4384680c329::t_a1eb6597303a9f 106,160
+uv.lock
+  s_feb4384680c329::t_009d5c588dbcc5 1183,1200-1220
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "46fe3753d2a18029d353dfef5496b64d00287b2f",
+  "prompts": {},
+  "sessions": {
+    "s_feb4384680c329": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3976ac73-3e2b-4e73-8443-6c0bf43ba66a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
