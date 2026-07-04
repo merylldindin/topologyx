@@ -1,0 +1,21 @@
+.github/workflows/pypi-release.yml
+  s_feb4384680c329::t_7e0cbab75aa8f5 22
+.github/workflows/continuous-integration.yml
+  s_feb4384680c329::t_dae7ebe513f4c2 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ae6fe0d9ca9487fb80fd961ab4629bbf786429c9",
+  "prompts": {},
+  "sessions": {
+    "s_feb4384680c329": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3976ac73-3e2b-4e73-8443-6c0bf43ba66a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
