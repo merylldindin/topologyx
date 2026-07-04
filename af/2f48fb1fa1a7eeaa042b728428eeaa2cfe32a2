@@ -1,0 +1,21 @@
+pyproject.toml
+  s_feb4384680c329::t_3fc9d254692535 34-38,40
+uv.lock
+  s_feb4384680c329::t_dcf076494aecda 35-57,115,131,133,330,332,334,390,402,404,472,487,489,495,497,725,727,729,743-758,794,803,805,842-850,853,855,857,862,868,870,884,893,895,900,907,909,924-932,951-983,1011-1031,1102,1107,1109,1177-1182
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "af2f48fb1fa1a7eeaa042b728428eeaa2cfe32a2",
+  "prompts": {},
+  "sessions": {
+    "s_feb4384680c329": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3976ac73-3e2b-4e73-8443-6c0bf43ba66a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
