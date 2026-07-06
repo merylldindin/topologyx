@@ -37,7 +37,7 @@ name = "cffi"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pycparser", marker = "implementation_name != 'PyPy'" },
+    { name = "pycparser" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/eb/56/b1ba7935a17738ae8453301356628e8147c79dbb825bcbc73dc7401f9846/cffi-2.0.0.tar.gz", hash = "sha256:44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529", size = 523588, upload-time = "2025-09-08T23:24:04.541Z" }
 wheels = [
@@ -277,15 +277,12 @@ wheels = [
 
 [[package]]
 name = "gudhi"
-version = "3.11.0"
+version = "3.13.0"
 source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "numpy" },
-]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/9b/fd4191d059b5f63e2564ecc8e4b559357e461bdeb878978782754a8f7d2b/gudhi-3.11.0-cp313-cp313-macosx_12_0_universal2.whl", hash = "sha256:fd67b4466e44ded4bf0c52f8e01337cc32d9df6895cd7b357374ab3bb6cce180", size = 9885316, upload-time = "2025-02-21T16:15:14.124Z" },
-    { url = "https://files.pythonhosted.org/packages/3e/11/260272beae628fac6d88c3a091d886ce4bb7ce4e1e29c5c5d78f378fd78c/gudhi-3.11.0-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:f25075c29fbe7dd572ba0755c441c1c6dd893224a015dcc26e153077bb5ca894", size = 4216718, upload-time = "2025-02-21T16:36:08.059Z" },
-    { url = "https://files.pythonhosted.org/packages/8a/5d/4d4c709ef9a2dea2a5fd6710f831522653f93c445673f2d7b39939d4a12d/gudhi-3.11.0-cp313-cp313-win_amd64.whl", hash = "sha256:d057aed46c12564b622496fb7df399fd3f65993cf72aeb0005ca9c9a8f693890", size = 3387884, upload-time = "2025-02-21T16:50:10.255Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/ae/aaa6e391d8a2703b32c493f5f21204a05236733333f9dba19902ff13dbee/gudhi-3.13.0-cp313-cp313-macosx_14_0_universal2.whl", hash = "sha256:221c20f5f7897d1021c2d199ed3474069779d081fbd6f5a19cf73aeec3253fee", size = 8593646, upload-time = "2026-07-03T08:03:17.929Z" },
+    { url = "https://files.pythonhosted.org/packages/b4/cb/eab94a9f8aeec15e17c120bc4ec0e7cac9be3628acc52a7493d3a4197381/gudhi-3.13.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:0773fedf128089a5cd952ed5e63b5a5ea13c1de5cf883e4089e9a0e94fb3f88d", size = 4461127, upload-time = "2026-07-02T09:11:21.038Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/b2/9334e6eecfdc3356a55a018e571293f58d04501894f16a73ae7966baf8ab/gudhi-3.13.0-cp313-cp313-win_amd64.whl", hash = "sha256:2fcf5a2b931163880f53611f0803f8c93f3ccc36538a1c07dbce5f2c9ddbd8db", size = 3901455, upload-time = "2026-07-02T09:31:04.621Z" },
 ]
 
 [[package]]
@@ -1163,7 +1160,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gudhi", specifier = "==3.11.0" },
+    { name = "gudhi", specifier = "==3.13.0" },
     { name = "keras", specifier = ">=3.0.0" },
     { name = "matplotlib", specifier = "==3.10.8" },
     { name = "numpy", specifier = "==2.4.1" },
