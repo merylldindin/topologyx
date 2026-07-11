@@ -68,17 +68,6 @@ topologyx/
 | `make uv-update`     | Update dependencies                     |
 | `make marimo`        | Launch Marimo notebook server           |
 
-## Code Conventions
-
-- Line length: 88 characters
-- Type hints required on all functions
-- Conventional commits enforced via pre-commit
-- Branch naming: `{initials}/{descriptive-kebab-case}`
-- Naming:
-  - `snake_case` for functions and variables
-  - `PascalCase` for classes
-  - `SCREAMING_SNAKE_CASE` for constants
-
 ## CI/CD
 
 - **Continuous Integration**: Runs on PR/merge_group
