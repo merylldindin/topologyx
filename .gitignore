@@ -1,22 +1,29 @@
-# dependencies
+# Secrets
+**/.env*
+!**/.env.example
+
+# Dependencies
 .venv/
 
-# cache
+# Build Artifacts
+dist/
+*.egg-info/
+
+# Tooling
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
 .ty/
 **/__pycache__/
 **/__marimo__/
-
-# package
-dist/
-*.egg-info/
-
-# claude
+**/.vscode/*
+!**/.vscode/extensions.json
 .claude/*
-!.claude/agents
-!.claude/references
-!.claude/rules
-!.claude/skills
+!.claude/agents/
+!.claude/references/
+!.claude/rules/
+!.claude/skills/
 !.claude/settings.json
+
+# Meta
+**/.DS_Store
