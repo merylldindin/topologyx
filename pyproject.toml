@@ -16,7 +16,7 @@ dependencies = [
     "gudhi==3.13.0",
     "keras==3.15.0",
     "matplotlib==3.10.8",
-    "numpy==2.4.1",
+    "numpy==2.5.1",
     "plotly==6.5.0",
     "scikit-learn==1.8.0",
     "tqdm==4.67.1",
