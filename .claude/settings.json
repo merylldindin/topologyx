@@ -1,4 +1,8 @@
 {
+  "enabledPlugins": {
+    "claude-security@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true
+  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
@@ -32,7 +36,6 @@
       "WebSearch"
     ],
     "deny": [
-      "Read(.env*)",
       "Read(**/keyfile)",
       "Read(**/token.json)",
       "Read(**/token-*.json)",
@@ -41,5 +44,8 @@
       "Read(**/service-account*.json)",
       "Read(**/secrets/**)"
     ]
+  },
+  "worktree": {
+    "bgIsolation": "worktree"
   }
 }
