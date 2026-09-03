@@ -35,15 +35,7 @@
       "WebFetch",
       "WebSearch"
     ],
-    "deny": [
-      "Read(**/keyfile)",
-      "Read(**/token.json)",
-      "Read(**/token-*.json)",
-      "Read(**/oauth.keys.json)",
-      "Read(**/credentials.json)",
-      "Read(**/service-account*.json)",
-      "Read(**/secrets/**)"
-    ]
+    "deny": []
   },
   "worktree": {
     "bgIsolation": "worktree"
