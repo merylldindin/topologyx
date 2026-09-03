@@ -1,0 +1,19 @@
+.claude/settings.json
+  s_d1a2e6a8506c91::t_f9df6a6eab32bd 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "1b21506fd587567a9001b3dc95830b12f235e0cc",
+  "prompts": {},
+  "sessions": {
+    "s_d1a2e6a8506c91": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e32e6b1e-fa16-472c-9cbc-15bf4b3cb5ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
