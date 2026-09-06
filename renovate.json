@@ -9,14 +9,26 @@
   "schedule": ["before 6am on Monday"],
   "timezone": "Europe/Paris",
   "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": ["security", "urgent"],
-    "assignees": ["merylldindin"],
-    "minimumReleaseAge": "0 days"
+    "enabled": false
   },
-  "osvVulnerabilityAlerts": true,
   "rangeStrategy": "pin",
   "ignoreDeps": ["python"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "semanticCommitType": "build",
+    "semanticCommitScope": "deps"
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Version literals pinned in workflow env values, which no manifest covers",
+      "managerFilePatterns": ["/^\\.github/workflows/.+\\.yml$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+\\w+_VERSION:\\s*['\"]?(?<currentValue>[^'\"\\s]+)['\"]?"
+      ]
+    }
+  ],
   "packageRules": [
     {
       "description": "Ignore Python version updates",
@@ -33,7 +45,6 @@
       "matchUpdateTypes": [
         "bump",
         "digest",
-        "lockFileMaintenance",
         "minor",
         "patch",
         "pin",
@@ -54,6 +65,11 @@
       "semanticCommitType": "build",
       "semanticCommitScope": "deps",
       "matchPackageNames": ["!python"]
+    },
+    {
+      "description": "The python-version datasource carries no category, so the matchCategories rules never reach it; this must stay last because later rules win",
+      "enabled": false,
+      "matchDatasources": ["python-version"]
     }
   ]
 }
