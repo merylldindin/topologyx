@@ -1,0 +1,22 @@
+.github/workflows/continuous-integration.yml
+  s_7f2d36af863c2c::t_398432f0bba423 14-16
+  s_7f2d36af863c2c::t_4c490765722ef4 42-44
+renovate.json
+  s_7f2d36af863c2c::t_c5fbaf4b61e4e0 12,16-31,68-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "2cc4c86268c16a157f6208cbe4e6ddc1b173c054",
+  "prompts": {},
+  "sessions": {
+    "s_7f2d36af863c2c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "426b4d57-ad73-4a04-9aba-92e5fe40d916",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
