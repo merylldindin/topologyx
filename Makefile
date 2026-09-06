@@ -1,4 +1,4 @@
-PYTHON_FILES = $(shell find src examples -iname "*.py" -not -path "**/__pycache__/**")
+PYTHON_FILES = $(shell find src tests examples -iname "*.py" -not -path "**/__pycache__/**")
 
 .PHONY: setup setup-hard format format-fix lint lint-fix types test test-coverage uv-lock uv-update marimo help
 

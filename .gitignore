@@ -10,6 +10,7 @@ dist/
 *.egg-info/
 
 # Tooling
+.coverage
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
