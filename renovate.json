@@ -70,6 +70,33 @@
       "description": "The python-version datasource carries no category, so the matchCategories rules never reach it; this must stay last because later rules win",
       "enabled": false,
       "matchDatasources": ["python-version"]
+    },
+    {
+      "description": "A dependency found by a regex customManager belongs to the custom.regex manager and carries no category, so no matchCategories or matchManagers rule above can reach it however its datasourceTemplate reads. Without this rule those updates default to automerge false and wait for a human forever. pre-commit is listed for the same reason: its category is ci, not python.",
+      "automerge": true,
+      "groupName": "ci tooling",
+      "matchManagers": ["custom.regex", "pre-commit"],
+      "matchUpdateTypes": [
+        "bump",
+        "digest",
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "rollback"
+      ],
+      "minimumReleaseAge": "7 days",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "automerge": false,
+      "groupName": "ci tooling breaking changes",
+      "matchManagers": ["custom.regex", "pre-commit"],
+      "matchUpdateTypes": ["major", "replacement"],
+      "minimumReleaseAge": "21 days",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
     }
   ]
 }
