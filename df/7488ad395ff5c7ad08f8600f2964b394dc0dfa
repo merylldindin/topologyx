@@ -1,0 +1,21 @@
+.gitignore
+  s_0fb01a109d4760::t_590d38436a4c2e 13
+Makefile
+  s_0fb01a109d4760::t_0156e921e32d89 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "df7488ad395ff5c7ad08f8600f2964b394dc0dfa",
+  "prompts": {},
+  "sessions": {
+    "s_0fb01a109d4760": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bfdfdd00-486a-4c54-b772-3f282cc47ac4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
