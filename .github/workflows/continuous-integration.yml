@@ -11,6 +11,9 @@ jobs:
   workflow:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      # renovate: datasource=npm depName=renovate
+      RENOVATE_VERSION: '44.65.5'
 
     steps:
       - name: Checkout Codebase
@@ -36,3 +39,6 @@ jobs:
 
       - name: Run Type Check
         run: make types
+
+      - name: Validate Renovate Config
+        run: npx --yes --package "renovate@${RENOVATE_VERSION}" renovate-config-validator --strict
