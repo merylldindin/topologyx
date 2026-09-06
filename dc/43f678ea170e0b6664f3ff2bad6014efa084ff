@@ -1,0 +1,24 @@
+CLAUDE.md
+  s_0fb01a109d4760::t_a167554dc88460 7,9
+  s_0fb01a109d4760::t_2595c4ed1b231c 3,5,11,13,15-17,19,21-22,25-33,35-38,46-49,51-53,55,57,59,61-67,69-70,72,74-78,80
+  s_0fb01a109d4760::t_b7be3da38fd848 24
+  s_0fb01a109d4760::t_626e32ac4b6c0a 23
+AGENTS.md
+  s_0fb01a109d4760::t_6bb18c0d0557f9 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "dc43f678ea170e0b6664f3ff2bad6014efa084ff",
+  "prompts": {},
+  "sessions": {
+    "s_0fb01a109d4760": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bfdfdd00-486a-4c54-b772-3f282cc47ac4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
