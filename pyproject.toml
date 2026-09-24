@@ -37,7 +37,7 @@ dev = [
     "pytest-cov==7.1.0",
     "ruff==0.16.6",
     "ty==0.0.78",
-    "marimo==0.24.0",
+    "marimo==0.25.0",
 ]
 
 [build-system]
