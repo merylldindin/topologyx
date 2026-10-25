@@ -14,5 +14,5 @@
   "python.analysis.importFormat": "relative",
   "python.analysis.inlayHints.functionReturnTypes": true,
   "python.analysis.typeCheckingMode": "basic",
-  "python.defaultInterpreterPath": ".venv/bin/python3.13"
+  "python.defaultInterpreterPath": ".venv/bin/python"
 }

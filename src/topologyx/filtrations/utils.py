@@ -134,17 +134,16 @@ def build_persistence_image(
 def plot_persistences(upper_persistence: Any, lower_persistence: Any) -> None:
     _, axes = plt.subplots(nrows=2, ncols=2, figsize=(18, 8))
 
-    gudhi.plot_persistence_diagram(upper_persistence, axes=axes[0, 0])  # type: ignore
-    gudhi.plot_persistence_barcode(upper_persistence, axes=axes[1, 0])  # type: ignore
-    gudhi.plot_persistence_diagram(lower_persistence, axes=axes[0, 1])  # type: ignore
-    gudhi.plot_persistence_barcode(lower_persistence, axes=axes[1, 1])  # type: ignore
+    gudhi.plot_persistence_diagram(upper_persistence, axes=axes[0, 0])
+    gudhi.plot_persistence_barcode(upper_persistence, axes=axes[1, 0])
+    gudhi.plot_persistence_diagram(lower_persistence, axes=axes[0, 1])
+    gudhi.plot_persistence_barcode(lower_persistence, axes=axes[1, 1])
 
     plt.tight_layout()
     plt.show()
 
 
 def plot_betti_curves(upper_levels: np.ndarray, lower_levels: np.ndarray) -> None:
-    # sourcery skip: extract-duplicate-method
     plt.figure(figsize=(18, 3))
     plt.subplot(1, 2, 1)
     plt.title("Upper Levels Betti Curve")
@@ -164,7 +163,6 @@ def plot_persistence_landscapes(
     upper_levels: np.ndarray,
     lower_levels: np.ndarray,
 ) -> None:
-    # sourcery skip: extract-duplicate-method
     plt.figure(figsize=(18, 3))
     plt.subplot(1, 2, 1)
     plt.title("Upper Levels Persistence Landscapes")

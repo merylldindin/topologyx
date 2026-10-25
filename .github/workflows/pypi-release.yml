@@ -27,37 +27,22 @@ jobs:
       - name: Checkout New Release Branch
         run: git checkout -b gh/release-${{ inputs.version }}
 
-      - name: Update Version in pyproject.toml
-        run: |
-          python -c "
-          import re
-          with open('pyproject.toml', 'r') as f:
-              content = f.read()
-          content = re.sub(
-              r'(\[project\][^\[]*?)version = \"[^\"]+\"',
-              r'\1version = \"${{ inputs.version }}\"',
-              content,
-              count=1,
-              flags=re.DOTALL
-          )
-          with open('pyproject.toml', 'w') as f:
-              f.write(content)
-          "
+      - name: Update Version
+        run: uv version "${{ inputs.version }}" --no-sync
 
       - name: Commit Version Bump
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          git add pyproject.toml
+          git add pyproject.toml uv.lock
           git commit -m 'build: bump version to ${{ inputs.version }}'
-          git push origin main
 
       - name: Push Changes to Release Branch
         run: git push origin gh/release-${{ inputs.version }}
 
       - name: Create Release
         run: |
-          gh release create ${{ inputs.version }} --title 'Release ${{ inputs.version }}' --notes 'Release ${{ inputs.version }}'
+          gh release create ${{ inputs.version }} --target gh/release-${{ inputs.version }} --title 'Release ${{ inputs.version }}' --notes 'Release ${{ inputs.version }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

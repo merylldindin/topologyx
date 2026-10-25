@@ -4,7 +4,7 @@ Topological Data Analysis library — filtrations, persistence descriptors, ToMa
 
 ## Stack
 
-Python is pinned to `==3.13.*` — an exact pin, not a floor, so `uv sync` refuses any other interpreter. uv for packaging, Gudhi for simplicial complexes and persistence, scikit-learn for neighbours and decomposition, NumPy throughout, Keras for the channel layers, Matplotlib for the plotting helpers, Marimo for the examples.
+Python is bounded to `>=3.13,<3.15`: 3.13 and 3.14 are supported, and CI runs the full gate on both. Ruff and `ty` target 3.13, the floor, so code using a 3.14-only feature fails the gate. uv for packaging, Gudhi for simplicial complexes and persistence, scikit-learn for neighbours and decomposition, NumPy throughout, Keras on the JAX backend for the channel layers, Matplotlib for the plotting helpers, Marimo for the examples.
 
 `scipy.stats.gaussian_kde` is imported by `clustering/` but SciPy is not a declared dependency — it arrives transitively through scikit-learn. Treat that as a latent break, not a licence to add more undeclared imports.
 
@@ -18,8 +18,8 @@ Three subpackages under `src/topologyx/`, and the unusual part is that **each `_
 
 Two constraints that shape the code:
 
-- **Gudhi ships no type stubs.** Every `gudhi.SimplexTree()` and `gudhi.AlphaComplex()` construction carries `# type: ignore`, and `SimplexTreeProtocol` in `filtrations/__init__.py` exists to give the returned object a typed interface. Extend that Protocol rather than widening a signature to `Any`.
-- **Importing `topologyx.channels` pulls Keras and a configured backend.** The other two subpackages do not, so keep Keras imports out of them.
+- **Gudhi's Python modules are annotated and `ty` reads them, so no `# type: ignore` is needed or allowed.** `AlphaComplex` is imported from `gudhi.delaunay_complex` because `gudhi/__init__.py` exports it conditionally, and it takes points as nested lists (`.tolist()`), not an ndarray. `SimplexTreeProtocol` in `filtrations/__init__.py` types the simplex trees the public methods return; extend it rather than widening a signature to `Any`.
+- **Importing `topologyx.channels` pulls Keras and JAX.** `channels/__init__.py` sets `KERAS_BACKEND` to `jax` with `os.environ.setdefault` before importing Keras, so a caller's explicit backend still wins, and a caller who imports `keras` first without setting it gets the TensorFlow default and fails. `tests/conftest.py` sets the same default for that reason. JAX is a declared dependency because TensorFlow, the Keras default, publishes no Python 3.14 wheels. `jaxlib` publishes no Intel macOS wheel, so the `jax` requirement carries a marker that skips that platform; an Intel Mac caller of `topologyx.channels` sets `KERAS_BACKEND` to a backend they install. The other two subpackages import neither, so keep Keras imports out of them.
 
 `Filtration` built with `use_alpha=False` handles 1D, 2D and 3D input only and raises `ValueError` beyond that; the alpha-complex path has no such ceiling.
 
@@ -62,19 +62,19 @@ There is no `check` aggregate. `make format lint types test` is the full local g
 
 `make setup` installs the pre-commit hooks. They run on every commit: trailing whitespace, end-of-file, YAML and TOML syntax, `ruff format`, `ruff check --fix`, and commitizen on the message — so every commit must be a Conventional Commit.
 
-CI runs on `pull_request` and `merge_group`, and runs the same four make targets.
+CI runs on `pull_request`, `merge_group` and `workflow_dispatch`. It runs the same four make targets, plus `renovate-config-validator` on the 3.13 leg.
 
 Two gates are weaker than they look:
 
-- **`make types` is advisory.** `error-on-warning = false`, and the noisy `ty` rules are set to `warn`, so it exits 0 while reporting diagnostics. Read its output; a green exit is not a clean type check.
+- **`make types` passes warnings.** `error-on-warning = false`, and `unresolved-import` and `unresolved-attribute` are set to `warn`, so it exits 0 while reporting diagnostics. The tree is at zero diagnostics across `src/` and `tests/`; read the output and keep it there.
 - **Ruff selects only `E`, `F`, `I001`, `W`.** Annotation, naming and docstring rules are enforced by nobody, so what `CONTRIBUTING.md` states about typing and naming is convention a reviewer checks, not a gate. One convention it does not state: no inline comments and no docstrings — names carry the meaning, and a comment is a second source of truth nothing verifies.
 
 ## Release
 
 The version lives in `[project] version` of `pyproject.toml`, and that field is the only one the release reads.
 
-Publishing is manual and never happens on merge. Run the `PyPI Release` workflow with a semantic version; it rewrites that field, pushes the bump directly to `main`, cuts the GitHub release, builds, publishes to PyPI, and opens a pull request from `gh/release-<version>`.
+Publishing is manual and never happens on merge. Run the `PyPI Release` workflow with a semantic version; it sets the version with `uv version`, which rewrites that field and `uv.lock` together, commits the bump on `gh/release-<version>`, cuts the GitHub release from that branch so the tag holds the bump, builds, publishes to PyPI, and opens a pull request that brings the bump to `main`.
 
 ## Dependencies
 
-Every dependency is pinned to an exact version. Renovate auto-merges minor and patch updates after 7 days, major updates to dev dependencies after 14, and security updates immediately.
+Every direct dependency and the `hatchling` build requirement is pinned to an exact version, and the committed `uv.lock` pins the full resolution. Renovate auto-merges minor and patch updates to Python dependencies, the build requirement, pre-commit hook revisions and workflow env versions annotated with a `# renovate:` comment after 7 days, and major updates to `[dependency-groups]` after 14. GitHub Actions `uses:` bumps open PRs that are merged by hand. Python rules in `renovate.json` match on the pep621 dependency types (`project.dependencies`, `dependency-groups`, `build-system.requires`), and Renovate's pre-commit manager is opted in explicitly because it is off by default. The `ruff` and `commitizen` hooks are local hooks that run the pinned dev dependencies through `uv run --frozen`, so a hook always uses the version CI checks with; the pre-commit manager only tracks `pre-commit-hooks`. Weekly lock file maintenance re-resolves the transitive dependencies in `uv.lock` and auto-merges with no release-age wait. CI installs with `uv sync --locked`, so a `uv.lock` out of step with `pyproject.toml` fails the build.

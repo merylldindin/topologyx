@@ -3,12 +3,11 @@ from typing import Protocol
 
 import gudhi
 import numpy as np
+from gudhi.delaunay_complex import AlphaComplex
 from sklearn.neighbors import KDTree
 
 
 class SimplexTreeProtocol(Protocol):
-    """Protocol defining the interface for gudhi SimplexTree objects."""
-
     def persistence(self) -> list[tuple[int, tuple[float, float]]]: ...
     def persistence_intervals_in_dimension(
         self, dimension: int
@@ -45,11 +44,12 @@ class Filtration:
         self.kd_tree = KDTree(self.vector, leaf_size=leaf_size, metric="euclidean")
 
         if use_alpha:
-            self.simplex = gudhi.AlphaComplex(points=self.vector)  # type: ignore
-            self.simplex = self.simplex.create_simplex_tree(max_alpha_square=250.0)
+            self.simplex = AlphaComplex(
+                points=self.vector.tolist()
+            ).create_simplex_tree(max_alpha_square=250.0)
 
         else:
-            self.simplex = gudhi.SimplexTree()  # type: ignore
+            self.simplex = gudhi.SimplexTree()
 
             if vector.shape[1] == 1:
                 for i in np.arange(len(vector)):
@@ -100,7 +100,7 @@ class Filtration:
         return self.get_density_estimate(self.vector, n_neighbors)
 
     def apply_sublevel_filtration(self, n_neighbors: int = 5) -> SimplexTreeProtocol:
-        simplex = gudhi.SimplexTree()  # type: ignore
+        simplex = gudhi.SimplexTree()
         vertexes = self.get_vertexes(n_neighbors)
 
         for pair in self.simplex.get_filtration():
@@ -154,7 +154,7 @@ class Filtration:
     def apply_dtm_filtration(
         self, n_neighbors: int = 5, n_divisions: int = 5
     ) -> SimplexTreeProtocol:
-        simplex = gudhi.SimplexTree()  # type: ignore
+        simplex = gudhi.SimplexTree()
         vertexes = self.get_vertexes(n_neighbors)
 
         for pair in self.simplex.get_filtration():
@@ -262,8 +262,8 @@ class Filtration:
 
 class Levels:
     def __init__(self, serie: np.ndarray) -> None:
-        self.upper_simplex = gudhi.SimplexTree()  # type: ignore
-        self.lower_simplex = gudhi.SimplexTree()  # type: ignore
+        self.upper_simplex = gudhi.SimplexTree()
+        self.lower_simplex = gudhi.SimplexTree()
 
         for index in np.arange(len(serie)):
             self.upper_simplex.insert([index], filtration=serie[index])

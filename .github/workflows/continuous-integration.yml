@@ -11,9 +11,14 @@ jobs:
   workflow:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.13', '3.14']
     env:
       # renovate: datasource=npm depName=renovate
-      RENOVATE_VERSION: '44.115.13'
+      RENOVATE_VERSION: '44.167.1'
+      UV_PYTHON: ${{ matrix.python-version }}
 
     steps:
       - name: Checkout Codebase
@@ -26,10 +31,10 @@ jobs:
           cache-dependency-glob: '**/uv.lock'
 
       - name: Setup Python
-        run: uv python install 3.13
+        run: uv python install ${{ matrix.python-version }}
 
       - name: Install Dependencies
-        run: uv sync
+        run: uv sync --locked
 
       - name: Run Ruff Format Check
         run: make format
@@ -43,5 +48,12 @@ jobs:
       - name: Run Tests
         run: make test
 
+      - name: Setup Node
+        if: matrix.python-version == '3.13'
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+
       - name: Validate Renovate Config
+        if: matrix.python-version == '3.13'
         run: npx --yes --package "renovate@${RENOVATE_VERSION}" renovate-config-validator --strict

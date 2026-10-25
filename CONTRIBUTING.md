@@ -46,23 +46,26 @@ An application of those guidelines is illustrated below:
 ```python
 # do
 def function():
-  return object
+    return object
+
 
 # don't
 def function():
 
-  return object
+    return object
+
 
 # do
 def function():
-  object = get_object()
+    object = get_object()
 
-  return object
+    return object
+
 
 # don't
 def function():
-  object = get_object()
-  return object
+    object = get_object()
+    return object
 ```
 
 ### Assert Statements:
@@ -71,7 +74,7 @@ The guidelines are the same for `assert` statements than they are for `return` s
 
 ### Helpers:
 
-I use Python 3.13 so make sure to install a clean venv environment depending on a 3.13.\* version. I rely on [uv](https://docs.astral.sh/uv/) for environment and package management.
+Topologyx supports Python 3.13 and 3.14, so make sure to install a clean venv environment on one of those versions. I rely on [uv](https://docs.astral.sh/uv/) for environment and package management.
 
 I use some packages to help with code quality, those are:
 

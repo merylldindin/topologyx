@@ -2,7 +2,7 @@ default_install_hook_types: [pre-commit, commit-msg]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
         name: Trailing Whitespace
@@ -17,20 +17,24 @@ repos:
         name: TOML Syntax
         stages: [pre-commit]
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.0
+  - repo: local
     hooks:
       - id: ruff-format
         name: Python Format
+        entry: uv run --frozen ruff format --force-exclude
+        language: system
+        types_or: [python, pyi, jupyter, markdown]
+        require_serial: true
         stages: [pre-commit]
       - id: ruff
         name: Python Lint
+        entry: uv run --frozen ruff check --force-exclude --fix
+        language: system
+        types_or: [python, pyi, jupyter]
+        require_serial: true
         stages: [pre-commit]
-        args: [--fix]
-
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.10.1
-    hooks:
       - id: commitizen
         name: Commit Linter
+        entry: uv run --frozen cz check --allow-abort --commit-msg-file
+        language: system
         stages: [commit-msg]

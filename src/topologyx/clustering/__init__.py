@@ -32,7 +32,7 @@ class ClusterGenerator:
         self.n_samples = n_samples
         self.randomize = randomize
 
-    def generate(self) -> tuple[np.ndarray | None, ...]:
+    def generate(self) -> tuple[np.ndarray, np.ndarray | None]:
         match self.structure:
             case ClusterStructure.ANISOTROPY:
                 x, y = make_blobs(n_samples=self.n_samples, random_state=self.randomize)
@@ -83,7 +83,7 @@ class TomatoClustering:
     def estimate_clusters(self, n_neighbors: int = 6, visualize: bool = False) -> None:
         vector_density = self.estimate_density(visualize=visualize)
 
-        self.simplex = gudhi.SimplexTree()  # type: ignore
+        self.simplex = gudhi.SimplexTree()
         self.kd_tree = KDTree(self.x, metric="euclidean")
 
         for index in range(self.x.shape[0]):

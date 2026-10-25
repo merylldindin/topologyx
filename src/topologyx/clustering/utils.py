@@ -5,16 +5,16 @@ import numpy as np
 from scipy.stats import gaussian_kde as kde
 
 
-def plot_persistence(persistence: list[tuple[int, list[tuple[float, float]]]]) -> None:
+def plot_persistence(persistence: list[tuple[int, tuple[float, float]]]) -> None:
     reduced_persistence = [
         (dimension, radiuses) for (dimension, radiuses) in persistence if dimension == 0
     ]
 
     _, axes = plt.subplots(nrows=1, ncols=2, figsize=(18, 4))
 
-    gudhi.plot_persistence_diagram(reduced_persistence, axes=axes[0])  # type: ignore
+    gudhi.plot_persistence_diagram(reduced_persistence, axes=axes[0])
 
-    gudhi.plot_persistence_barcode(reduced_persistence, axes=axes[1])  # type: ignore
+    gudhi.plot_persistence_barcode(reduced_persistence, axes=axes[1])
 
     plt.tight_layout()
     plt.show()
@@ -56,21 +56,21 @@ def plot_density(tensor: np.ndarray, n_bins: int, vector_density: np.ndarray) ->
     axe_0.set_title("Mapped Density over 2D Space")
     axe_0.set_xticks([])
     axe_0.set_yticks([])
-    axe_0.set_zticks([])  # type: ignore
-    axe_0.scatter(u, v, kernel_density.reshape(u.shape), s=2, c="lightblue")  # type: ignore
+    axe_0.set_zticks([])
+    axe_0.scatter(u, v, kernel_density.reshape(u.shape), s=2, c="lightblue")
     axe_0.set_xlabel("x Coordinate")
     axe_0.set_ylabel("y Coordinate")
-    axe_0.set_zlabel("Density Value")  # type: ignore
+    axe_0.set_zlabel("Density Value")
 
     axe_1 = plt.subplot(fig[1:3, 3:6], projection="3d")
     axe_1.set_title("Density Estimate over 2D Space")
     axe_1.set_xticks([])
     axe_1.set_yticks([])
-    axe_1.set_zticks([])  # type: ignore
-    axe_1.scatter(x, y, vector_density.reshape(x.shape), s=2, c="lightgrey")  # type: ignore
+    axe_1.set_zticks([])
+    axe_1.scatter(x, y, vector_density.reshape(x.shape), s=2, c="lightgrey")
     axe_1.set_xlabel("x Coordinate")
     axe_1.set_ylabel("y Coordinate")
-    axe_1.set_zlabel("Density Value")  # type: ignore
+    axe_1.set_zlabel("Density Value")
 
     plt.tight_layout()
     plt.show()

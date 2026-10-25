@@ -1,9 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "extends": ["config:recommended", ":semanticCommits"],
   "assignees": ["merylldindin"],
   "gitIgnoredAuthors": ["renovate[bot]"],
-  "dependencyDashboard": true,
   "dependencyDashboardAutoclose": true,
   "rebaseWhen": "conflicted",
   "schedule": ["before 6am on Monday"],
@@ -13,6 +12,9 @@
   },
   "rangeStrategy": "pin",
   "ignoreDeps": ["python"],
+  "pre-commit": {
+    "enabled": true
+  },
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
@@ -40,7 +42,7 @@
       "automerge": true,
       "labels": ["python", "minor"],
       "groupName": "minor python dependencies",
-      "matchDepTypes": ["dependencies", "dev", "types"],
+      "matchDepTypes": ["project.dependencies", "dependency-groups", "build-system.requires"],
       "matchCategories": ["python"],
       "matchUpdateTypes": [
         "bump",
@@ -58,7 +60,7 @@
     {
       "automerge": true,
       "labels": ["python", "major"],
-      "matchDepTypes": ["dev", "types"],
+      "matchDepTypes": ["dependency-groups"],
       "matchCategories": ["python"],
       "matchUpdateTypes": ["major"],
       "minimumReleaseAge": "14 days",
@@ -67,12 +69,7 @@
       "matchPackageNames": ["!python"]
     },
     {
-      "description": "The python-version datasource carries no category, so the matchCategories rules never reach it; this must stay last because later rules win",
-      "enabled": false,
-      "matchDatasources": ["python-version"]
-    },
-    {
-      "description": "A dependency found by a regex customManager belongs to the custom.regex manager and carries no category, so no matchCategories or matchManagers rule above can reach it however its datasourceTemplate reads. Without this rule those updates default to automerge false and wait for a human forever. pre-commit is listed for the same reason: its category is ci, not python.",
+      "description": "A dependency found by a regex customManager belongs to the custom.regex manager and carries no category, so no matchCategories or matchManagers rule above can reach it however its datasourceTemplate reads. Without this rule those updates default to automerge false and wait for a human forever. pre-commit is listed for the same reason: its manager declares no category.",
       "automerge": true,
       "groupName": "ci tooling",
       "matchManagers": ["custom.regex", "pre-commit"],
