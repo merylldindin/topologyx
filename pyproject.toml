@@ -49,11 +49,8 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/topologyx"]
 
-[tool.pytest.ini_options]
-addopts = "--no-header -rA"
-
 [tool.ruff]
-extend-include = ["*.toml"]
+extend-include = ["*.ipynb", "*.toml"]
 line-length = 88
 output-format = "grouped"
 show-fixes = true
@@ -92,3 +89,6 @@ unresolved-attribute = "warn"
 [tool.ty.terminal]
 error-on-warning = false
 output-format = "full"
+
+[tool.pytest.ini_options]
+addopts = "--no-header -rA"

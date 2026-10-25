@@ -4,25 +4,25 @@ PYTHON_FILES = $(shell find src tests examples -iname "*.py" -not -path "**/__py
 
 setup: ## Install developer experience
 	@uv sync
-	@uv run pre-commit install --install-hooks || echo "Warning: pre-commit hooks not installed"
+	@uv run pre-commit install --install-hooks || echo "Warning: pre-commit hooks not installed (core.hooksPath may be set)"
 
-setup-hard: ## Clean install from scratch
+setup-hard: ## Clean install (remove caches)
 	@rm -rf .venv uv.lock
 	@make setup
 
-format: ## Check code formatting
+format: ## Check all Python files format
 	@uv run ruff format --check $(PYTHON_FILES)
 
-format-fix: ## Format code with Ruff
+format-fix: ## Format Python files
 	@uv run ruff format $(PYTHON_FILES)
 
-lint: ## Lint code with Ruff
+lint: ## Lint all Python files
 	@uv run ruff check $(PYTHON_FILES)
 
-lint-fix: ## Auto-fix linting issues
+lint-fix: ## Lint and auto-fix Python files
 	@uv run ruff check --fix $(PYTHON_FILES)
 
-types: ## Type check with ty
+types: ## Type check all Python files
 	@uv run ty check
 
 test: ## Run test suite

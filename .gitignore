@@ -6,16 +6,14 @@
 .venv/
 
 # Build Artifacts
+**/__pycache__/
 dist/
 *.egg-info/
 
 # Tooling
 .coverage
-.mypy_cache/
 .pytest_cache/
 .ruff_cache/
-.ty/
-**/__pycache__/
 **/__marimo__/
 **/.vscode/*
 !**/.vscode/extensions.json
