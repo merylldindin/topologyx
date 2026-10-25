@@ -51,7 +51,6 @@ packages = ["src/topologyx"]
 
 [tool.pytest.ini_options]
 addopts = "--no-header -rA"
-pythonpath = ["."]
 
 [tool.ruff]
 extend-include = ["*.toml"]
