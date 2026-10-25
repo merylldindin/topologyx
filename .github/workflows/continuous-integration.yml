@@ -17,7 +17,7 @@ jobs:
         python-version: ['3.13', '3.14']
     env:
       # renovate: datasource=npm depName=renovate
-      RENOVATE_VERSION: '44.167.1'
+      RENOVATE_VERSION: '44.167.5'
       UV_PYTHON: ${{ matrix.python-version }}
 
     steps:
