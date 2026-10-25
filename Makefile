@@ -7,7 +7,7 @@ setup: ## Install developer experience
 	@uv run pre-commit install --install-hooks || echo "Warning: pre-commit hooks not installed (core.hooksPath may be set)"
 
 setup-hard: ## Clean install (remove caches)
-	@rm -rf .venv uv.lock
+	@rm -rf .venv
 	@make setup
 
 format: ## Check all Python files format
