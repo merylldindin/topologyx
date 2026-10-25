@@ -21,6 +21,7 @@ def blobs_data() -> tuple[np.ndarray, np.ndarray]:
         structure=ClusterStructure.BLOBS, n_samples=300, randomize=42
     )
     x, y = generator.generate()
+    assert y is not None
     return x, y
 
 
@@ -31,6 +32,7 @@ def moons_data() -> tuple[np.ndarray, np.ndarray]:
         structure=ClusterStructure.MOONS, n_samples=300, randomize=42
     )
     x, y = generator.generate()
+    assert y is not None
     return x, y
 
 
@@ -41,4 +43,5 @@ def circles_data() -> tuple[np.ndarray, np.ndarray]:
         structure=ClusterStructure.CIRCLES, n_samples=300, randomize=42
     )
     x, y = generator.generate()
+    assert y is not None
     return x, y

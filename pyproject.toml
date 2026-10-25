@@ -82,14 +82,12 @@ section-order = [
 python-version = "3.13"
 
 [tool.ty.src]
-include = ["src/topologyx"]
+include = ["src/topologyx", "tests"]
 exclude = ["**/__pycache__/**"]
 
 [tool.ty.rules]
 unresolved-import = "warn"
 unresolved-attribute = "warn"
-invalid-argument-type = "warn"
-possibly-missing-attribute = "warn"
 
 [tool.ty.terminal]
 error-on-warning = false

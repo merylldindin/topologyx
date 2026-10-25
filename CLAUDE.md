@@ -18,7 +18,7 @@ Three subpackages under `src/topologyx/`, and the unusual part is that **each `_
 
 Two constraints that shape the code:
 
-- **Gudhi ships no type stubs.** Every `gudhi.SimplexTree()` and `gudhi.AlphaComplex()` construction carries `# type: ignore`, and `SimplexTreeProtocol` in `filtrations/__init__.py` exists to give the returned object a typed interface. Extend that Protocol rather than widening a signature to `Any`.
+- **Gudhi's Python modules are annotated and `ty` reads them, so no `# type: ignore` is needed or allowed.** `AlphaComplex` is imported from `gudhi.delaunay_complex` because `gudhi/__init__.py` exports it conditionally, and it takes points as nested lists (`.tolist()`), not an ndarray. `SimplexTreeProtocol` in `filtrations/__init__.py` types the simplex trees the public methods return; extend it rather than widening a signature to `Any`.
 - **Importing `topologyx.channels` pulls Keras and JAX.** `channels/__init__.py` sets `KERAS_BACKEND` to `jax` with `os.environ.setdefault` before importing Keras, so a caller's explicit backend still wins, and a caller who imports `keras` first without setting it gets the TensorFlow default and fails. `tests/conftest.py` sets the same default for that reason. JAX is a declared dependency because TensorFlow, the Keras default, publishes no Python 3.14 wheels. The other two subpackages import neither, so keep Keras imports out of them.
 
 `Filtration` built with `use_alpha=False` handles 1D, 2D and 3D input only and raises `ValueError` beyond that; the alpha-complex path has no such ceiling.
@@ -66,7 +66,7 @@ CI runs on `pull_request` and `merge_group`, and runs the same four make targets
 
 Two gates are weaker than they look:
 
-- **`make types` is advisory.** `error-on-warning = false`, and the noisy `ty` rules are set to `warn`, so it exits 0 while reporting diagnostics. Read its output; a green exit is not a clean type check.
+- **`make types` passes warnings.** `error-on-warning = false`, and `unresolved-import` and `unresolved-attribute` are set to `warn`, so it exits 0 while reporting diagnostics. The tree is at zero diagnostics across `src/` and `tests/`; read the output and keep it there.
 - **Ruff selects only `E`, `F`, `I001`, `W`.** Annotation, naming and docstring rules are enforced by nobody, so what `CONTRIBUTING.md` states about typing and naming is convention a reviewer checks, not a gate. One convention it does not state: no inline comments and no docstrings — names carry the meaning, and a comment is a second source of truth nothing verifies.
 
 ## Release

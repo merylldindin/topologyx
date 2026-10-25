@@ -134,10 +134,10 @@ def build_persistence_image(
 def plot_persistences(upper_persistence: Any, lower_persistence: Any) -> None:
     _, axes = plt.subplots(nrows=2, ncols=2, figsize=(18, 8))
 
-    gudhi.plot_persistence_diagram(upper_persistence, axes=axes[0, 0])  # type: ignore
-    gudhi.plot_persistence_barcode(upper_persistence, axes=axes[1, 0])  # type: ignore
-    gudhi.plot_persistence_diagram(lower_persistence, axes=axes[0, 1])  # type: ignore
-    gudhi.plot_persistence_barcode(lower_persistence, axes=axes[1, 1])  # type: ignore
+    gudhi.plot_persistence_diagram(upper_persistence, axes=axes[0, 0])
+    gudhi.plot_persistence_barcode(upper_persistence, axes=axes[1, 0])
+    gudhi.plot_persistence_diagram(lower_persistence, axes=axes[0, 1])
+    gudhi.plot_persistence_barcode(lower_persistence, axes=axes[1, 1])
 
     plt.tight_layout()
     plt.show()
