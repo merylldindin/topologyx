@@ -1,0 +1,30 @@
+LICENSE
+  s_f8c9fe493cca5b::t_0adc070db64042 1,178-187
+  s_f8c9fe493cca5b::t_07f292d635d143 188
+.gitignore
+  s_f8c9fe493cca5b::t_075dc92ef8dfe8 9
+.pre-commit-config.yaml
+  s_f8c9fe493cca5b::t_075dc92ef8dfe8 5
+pyproject.toml
+  s_f8c9fe493cca5b::t_075dc92ef8dfe8 53,92-94
+Makefile
+  s_f8c9fe493cca5b::t_25aa46cedb0d0d 7,9,13,16,19,22,25
+.vscode/settings.json
+  s_f8c9fe493cca5b::t_c49d74ecfded04 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4a0c8015ae4da9dfac1aa052c910cc29d5566852",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
