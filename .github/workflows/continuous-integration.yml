@@ -34,7 +34,7 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install Dependencies
-        run: uv sync
+        run: uv sync --locked
 
       - name: Run Ruff Format Check
         run: make format
