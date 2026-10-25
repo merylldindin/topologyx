@@ -94,6 +94,16 @@
       "minimumReleaseAge": "21 days",
       "semanticCommitType": "build",
       "semanticCommitScope": "deps"
+    },
+    {
+      "description": "The commit hook and the dev dependency are one tool at two versions; grouping them stops the hook from formatting or linting with a version CI does not check with",
+      "groupName": "ruff",
+      "matchPackageNames": ["ruff", "astral-sh/ruff-pre-commit"]
+    },
+    {
+      "description": "Same coupling as ruff: the commit-msg hook and the dev dependency move together",
+      "groupName": "commitizen",
+      "matchPackageNames": ["commitizen", "commitizen-tools/commitizen"]
     }
   ]
 }
