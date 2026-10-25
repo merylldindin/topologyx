@@ -1,0 +1,34 @@
+src/topologyx/channels/__init__.py
+  s_f8c9fe493cca5b::t_1376cd9a93bee7 1,4
+  s_c9629c8ccddca4::t_6050bcfbd308a5 5
+CLAUDE.md
+  s_f8c9fe493cca5b::t_7d4198d707dc2d 7,22
+pyproject.toml
+  s_f8c9fe493cca5b::t_49befbb4b4b171 18
+uv.lock
+  s_f8c9fe493cca5b::t_1ccb7f063698c9 522-560,1006-1014,1576,1599
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3a9c0e83c025b44a920a0d3885415b6375ae6911",
+  "prompts": {},
+  "sessions": {
+    "s_c9629c8ccddca4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73a1564f-599e-4de0-91c8-fb20f1202a1e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    },
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
