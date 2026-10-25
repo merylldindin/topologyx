@@ -48,6 +48,12 @@ jobs:
       - name: Run Tests
         run: make test
 
+      - name: Setup Node
+        if: matrix.python-version == '3.13'
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+
       - name: Validate Renovate Config
         if: matrix.python-version == '3.13'
         run: npx --yes --package "renovate@${RENOVATE_VERSION}" renovate-config-validator --strict
