@@ -8,10 +8,19 @@ KERAS_DEFAULT_BACKEND = "tensorflow"
 KERAS_BACKEND_MODULES = {"jax", "numpy", "openvino", "tensorflow", "torch"}
 
 
+def locate_keras_config() -> Path:
+    if "KERAS_HOME" in os.environ:
+        keras_home = os.environ["KERAS_HOME"]
+    else:
+        home_directory = os.path.expanduser("~")
+        writable_base = home_directory if os.access(home_directory, os.W_OK) else "/tmp"
+        keras_home = os.path.join(writable_base, ".keras")
+    return Path(os.path.expanduser(keras_home)) / "keras.json"
+
+
 def read_configured_backend() -> str:
-    keras_home = Path(os.environ.get("KERAS_HOME", Path.home() / ".keras"))
     try:
-        config = json.loads((keras_home / "keras.json").read_text())
+        config = json.loads(locate_keras_config().read_text())
     except (OSError, ValueError):
         return KERAS_DEFAULT_BACKEND
     if not isinstance(config, dict):

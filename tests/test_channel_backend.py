@@ -90,3 +90,31 @@ def test_unknown_configured_backend_is_left_to_keras(
     backend.select_keras_backend()
 
     assert "KERAS_BACKEND" not in os.environ
+
+
+def test_keras_home_with_tilde_is_expanded(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("KERAS_HOME", "~/keras-config")
+
+    assert backend.locate_keras_config() == tmp_path / "keras-config" / "keras.json"
+
+
+def test_writable_home_holds_the_keras_config(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.delenv("KERAS_HOME", raising=False)
+
+    assert backend.locate_keras_config() == tmp_path / ".keras" / "keras.json"
+
+
+def test_unwritable_home_falls_back_to_tmp(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.delenv("KERAS_HOME", raising=False)
+    monkeypatch.setattr(backend.os, "access", lambda path, mode: False)
+
+    assert backend.locate_keras_config() == Path("/tmp/.keras/keras.json")
