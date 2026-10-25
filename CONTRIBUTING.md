@@ -71,7 +71,7 @@ The guidelines are the same for `assert` statements than they are for `return` s
 
 ### Helpers:
 
-I use Python 3.13 so make sure to install a clean venv environment depending on a 3.13.\* version. I rely on [uv](https://docs.astral.sh/uv/) for environment and package management.
+Topologyx supports Python 3.13 and 3.14, so make sure to install a clean venv environment on one of those versions. I rely on [uv](https://docs.astral.sh/uv/) for environment and package management.
 
 I use some packages to help with code quality, those are:
 
