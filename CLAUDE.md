@@ -4,7 +4,7 @@ Topological Data Analysis library — filtrations, persistence descriptors, ToMa
 
 ## Stack
 
-Python is bounded to `>=3.13,<3.15`: 3.13 and 3.14 are supported, and CI runs the full gate on both. Ruff and `ty` target 3.13, the floor, so code using a 3.14-only feature fails the gate. uv for packaging, Gudhi for simplicial complexes and persistence, scikit-learn for neighbours and decomposition, NumPy throughout, Keras on the JAX backend for the channel layers, Matplotlib for the plotting helpers, Marimo for the examples.
+Python is bounded to `>=3.13,<3.15`: 3.13 and 3.14 are supported, and CI runs the full gate on both. Ruff and `ty` take their target version from the `requires-python` floor, 3.13, so code using a 3.14-only feature fails the gate. uv for packaging, Gudhi for simplicial complexes and persistence, scikit-learn for neighbours and decomposition, NumPy throughout, Keras on the JAX backend for the channel layers, Matplotlib for the plotting helpers, Marimo for the examples.
 
 `scipy.stats.gaussian_kde` is imported by `clustering/` but SciPy is not a declared dependency — it arrives transitively through scikit-learn. Treat that as a latent break, not a licence to add more undeclared imports.
 
