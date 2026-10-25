@@ -77,4 +77,4 @@ Publishing is manual and never happens on merge. Run the `PyPI Release` workflow
 
 ## Dependencies
 
-Every dependency is pinned to an exact version. Renovate auto-merges minor and patch updates after 7 days, major updates to dev dependencies after 14, and security updates immediately.
+Every direct dependency and the `hatchling` build requirement is pinned to an exact version. Renovate auto-merges minor and patch updates to Python dependencies, the build requirement, pre-commit hook revisions and workflow env versions annotated with a `# renovate:` comment after 7 days, and major updates to `[dependency-groups]` after 14. GitHub Actions `uses:` bumps open PRs that are merged by hand. Python rules in `renovate.json` match on the pep621 dependency types (`project.dependencies`, `dependency-groups`, `build-system.requires`), and Renovate's pre-commit manager is opted in explicitly because it is off by default.

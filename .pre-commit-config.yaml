@@ -18,7 +18,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.0
+    rev: v0.17.2
     hooks:
       - id: ruff-format
         name: Python Format
@@ -29,7 +29,7 @@ repos:
         args: [--fix]
 
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.10.1
+    rev: v4.19.3
     hooks:
       - id: commitizen
         name: Commit Linter

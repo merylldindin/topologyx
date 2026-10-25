@@ -13,6 +13,9 @@
   },
   "rangeStrategy": "pin",
   "ignoreDeps": ["python"],
+  "pre-commit": {
+    "enabled": true
+  },
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
@@ -40,7 +43,7 @@
       "automerge": true,
       "labels": ["python", "minor"],
       "groupName": "minor python dependencies",
-      "matchDepTypes": ["dependencies", "dev", "types"],
+      "matchDepTypes": ["project.dependencies", "dependency-groups", "build-system.requires"],
       "matchCategories": ["python"],
       "matchUpdateTypes": [
         "bump",
@@ -58,7 +61,7 @@
     {
       "automerge": true,
       "labels": ["python", "major"],
-      "matchDepTypes": ["dev", "types"],
+      "matchDepTypes": ["dependency-groups"],
       "matchCategories": ["python"],
       "matchUpdateTypes": ["major"],
       "minimumReleaseAge": "14 days",
