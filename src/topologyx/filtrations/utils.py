@@ -144,7 +144,6 @@ def plot_persistences(upper_persistence: Any, lower_persistence: Any) -> None:
 
 
 def plot_betti_curves(upper_levels: np.ndarray, lower_levels: np.ndarray) -> None:
-    # sourcery skip: extract-duplicate-method
     plt.figure(figsize=(18, 3))
     plt.subplot(1, 2, 1)
     plt.title("Upper Levels Betti Curve")
@@ -164,7 +163,6 @@ def plot_persistence_landscapes(
     upper_levels: np.ndarray,
     lower_levels: np.ndarray,
 ) -> None:
-    # sourcery skip: extract-duplicate-method
     plt.figure(figsize=(18, 3))
     plt.subplot(1, 2, 1)
     plt.title("Upper Levels Persistence Landscapes")

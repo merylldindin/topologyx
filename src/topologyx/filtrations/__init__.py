@@ -8,8 +8,6 @@ from sklearn.neighbors import KDTree
 
 
 class SimplexTreeProtocol(Protocol):
-    """Protocol defining the interface for gudhi SimplexTree objects."""
-
     def persistence(self) -> list[tuple[int, tuple[float, float]]]: ...
     def persistence_intervals_in_dimension(
         self, dimension: int
