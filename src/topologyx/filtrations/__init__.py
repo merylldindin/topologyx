@@ -40,7 +40,7 @@ class Filtration:
         use_alpha: bool = True,
         leaf_size: int = 30,
     ) -> None:
-        self.vector = vector
+        self.vector = np.asarray(vector)
         self.kd_tree = KDTree(self.vector, leaf_size=leaf_size, metric="euclidean")
 
         if use_alpha:

@@ -94,6 +94,12 @@
       "minimumReleaseAge": "21 days",
       "semanticCommitType": "build",
       "semanticCommitScope": "deps"
+    },
+    {
+      "description": "setup-node's node-version is extracted as a uses-with dependency, and the global pin strategy would turn '24' into an exact release that no automerge rule covers; keeping the major-only value means a PR opens only for a new Node major, merged by hand",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["node"],
+      "rangeStrategy": "replace"
     }
   ]
 }
