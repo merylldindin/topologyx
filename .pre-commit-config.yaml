@@ -17,20 +17,24 @@ repos:
         name: TOML Syntax
         stages: [pre-commit]
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.2
+  - repo: local
     hooks:
       - id: ruff-format
         name: Python Format
+        entry: uv run --frozen ruff format --force-exclude
+        language: system
+        types_or: [python, pyi, jupyter, markdown]
+        require_serial: true
         stages: [pre-commit]
       - id: ruff
         name: Python Lint
+        entry: uv run --frozen ruff check --force-exclude --fix
+        language: system
+        types_or: [python, pyi, jupyter]
+        require_serial: true
         stages: [pre-commit]
-        args: [--fix]
-
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.19.3
-    hooks:
       - id: commitizen
         name: Commit Linter
+        entry: uv run --frozen cz check --allow-abort --commit-msg-file
+        language: system
         stages: [commit-msg]

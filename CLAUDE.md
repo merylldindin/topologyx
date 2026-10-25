@@ -62,7 +62,7 @@ There is no `check` aggregate. `make format lint types test` is the full local g
 
 `make setup` installs the pre-commit hooks. They run on every commit: trailing whitespace, end-of-file, YAML and TOML syntax, `ruff format`, `ruff check --fix`, and commitizen on the message — so every commit must be a Conventional Commit.
 
-CI runs on `pull_request` and `merge_group`, and runs the same four make targets.
+CI runs on `pull_request`, `merge_group` and `workflow_dispatch`. It runs the same four make targets, plus `renovate-config-validator` on the 3.13 leg.
 
 Two gates are weaker than they look:
 
@@ -73,8 +73,8 @@ Two gates are weaker than they look:
 
 The version lives in `[project] version` of `pyproject.toml`, and that field is the only one the release reads.
 
-Publishing is manual and never happens on merge. Run the `PyPI Release` workflow with a semantic version; it sets the version with `uv version`, which rewrites that field and `uv.lock` together, pushes the bump directly to `main`, cuts the GitHub release, builds, publishes to PyPI, and opens a pull request from `gh/release-<version>`.
+Publishing is manual and never happens on merge. Run the `PyPI Release` workflow with a semantic version; it sets the version with `uv version`, which rewrites that field and `uv.lock` together, commits the bump on `gh/release-<version>`, cuts the GitHub release from that branch so the tag holds the bump, builds, publishes to PyPI, and opens a pull request that brings the bump to `main`.
 
 ## Dependencies
 
-Every direct dependency and the `hatchling` build requirement is pinned to an exact version, and the committed `uv.lock` pins the full resolution. Renovate auto-merges minor and patch updates to Python dependencies, the build requirement, pre-commit hook revisions and workflow env versions annotated with a `# renovate:` comment after 7 days, and major updates to `[dependency-groups]` after 14. GitHub Actions `uses:` bumps open PRs that are merged by hand. Python rules in `renovate.json` match on the pep621 dependency types (`project.dependencies`, `dependency-groups`, `build-system.requires`), and Renovate's pre-commit manager is opted in explicitly because it is off by default. Each hook and its dev dependency (`ruff`, `commitizen`) share one Renovate group with `minimumGroupSize: 2`, so neither opens a PR without the other; their majors wait 21 days on both sides and are merged by hand. Weekly lock file maintenance re-resolves the transitive dependencies in `uv.lock` and auto-merges with no release-age wait. CI installs with `uv sync --locked`, so a `uv.lock` out of step with `pyproject.toml` fails the build.
+Every direct dependency and the `hatchling` build requirement is pinned to an exact version, and the committed `uv.lock` pins the full resolution. Renovate auto-merges minor and patch updates to Python dependencies, the build requirement, pre-commit hook revisions and workflow env versions annotated with a `# renovate:` comment after 7 days, and major updates to `[dependency-groups]` after 14. GitHub Actions `uses:` bumps open PRs that are merged by hand. Python rules in `renovate.json` match on the pep621 dependency types (`project.dependencies`, `dependency-groups`, `build-system.requires`), and Renovate's pre-commit manager is opted in explicitly because it is off by default. The `ruff` and `commitizen` hooks are local hooks that run the pinned dev dependencies through `uv run --frozen`, so a hook always uses the version CI checks with; the pre-commit manager only tracks `pre-commit-hooks`. Weekly lock file maintenance re-resolves the transitive dependencies in `uv.lock` and auto-merges with no release-age wait. CI installs with `uv sync --locked`, so a `uv.lock` out of step with `pyproject.toml` fails the build.
