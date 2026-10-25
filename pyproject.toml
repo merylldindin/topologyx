@@ -50,11 +50,9 @@ build-backend = "hatchling.build"
 packages = ["src/topologyx"]
 
 [tool.ruff]
-extend-include = ["*.ipynb", "*.toml"]
 line-length = 88
 output-format = "grouped"
 show-fixes = true
-target-version = "py313"
 
 [tool.ruff.format]
 quote-style = "double"
@@ -63,24 +61,11 @@ docstring-code-format = true
 
 [tool.ruff.lint]
 dummy-variable-rgx = "_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"
-ignore = ["D100", "D101", "E402", "E501"]
+ignore = ["E402", "E501"]
 select = ["E", "F", "I001", "W"]
-
-[tool.ruff.lint.isort]
-section-order = [
-    "future",
-    "standard-library",
-    "third-party",
-    "first-party",
-    "local-folder",
-]
-
-[tool.ty.environment]
-python-version = "3.13"
 
 [tool.ty.src]
 include = ["src/topologyx", "tests"]
-exclude = ["**/__pycache__/**"]
 
 [tool.ty.rules]
 unresolved-import = "warn"
@@ -88,7 +73,6 @@ unresolved-attribute = "warn"
 
 [tool.ty.terminal]
 error-on-warning = false
-output-format = "full"
 
 [tool.pytest.ini_options]
 addopts = "--no-header -rA"
