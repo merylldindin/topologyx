@@ -1,0 +1,21 @@
+pyproject.toml
+  s_f8c9fe493cca5b::t_a7d00fd815dbb6 64
+CLAUDE.md
+  s_f8c9fe493cca5b::t_a7d00fd815dbb6 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7a9d2b0c785c272a5bd75d797dff44bdd1a06357",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
