@@ -1,0 +1,33 @@
+src/topologyx/filtrations/utils.py
+  s_f8c9fe493cca5b::t_1c9d6e52e345ed 137-140
+tests/conftest.py
+  s_f8c9fe493cca5b::t_d7aad3a34520bb 24,35,46
+src/topologyx/filtrations/__init__.py
+  s_f8c9fe493cca5b::t_035cf24746e777 6
+  s_f8c9fe493cca5b::t_1c9d6e52e345ed 49,53,104,158,266-267
+pyproject.toml
+  s_f8c9fe493cca5b::t_8ac382e5059770 85
+src/topologyx/clustering/__init__.py
+  s_f8c9fe493cca5b::t_12ffcac95b3a70 35
+  s_f8c9fe493cca5b::t_1c9d6e52e345ed 86
+CLAUDE.md
+  s_f8c9fe493cca5b::t_0ce332aeb0f86a 21,69
+src/topologyx/clustering/utils.py
+  s_f8c9fe493cca5b::t_1c9d6e52e345ed 8,15,17,59-60,63,69-70,73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a063280aafa4ea1dfb578ae57dbfadb985d8e3b8",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
