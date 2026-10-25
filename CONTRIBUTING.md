@@ -46,23 +46,26 @@ An application of those guidelines is illustrated below:
 ```python
 # do
 def function():
-  return object
+    return object
+
 
 # don't
 def function():
 
-  return object
+    return object
+
 
 # do
 def function():
-  object = get_object()
+    object = get_object()
 
-  return object
+    return object
+
 
 # don't
 def function():
-  object = get_object()
-  return object
+    object = get_object()
+    return object
 ```
 
 ### Assert Statements:
