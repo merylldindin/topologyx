@@ -1,7 +1,8 @@
-import os
 from typing import Any
 
-os.environ.setdefault("KERAS_BACKEND", "jax")
+from topologyx.channels.backend import select_keras_backend
+
+select_keras_backend()
 
 from keras import layers
 
