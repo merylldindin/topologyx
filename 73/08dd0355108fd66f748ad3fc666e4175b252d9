@@ -1,0 +1,25 @@
+CLAUDE.md
+  s_f8c9fe493cca5b::t_4b887ddc7a093a 76,80
+renovate.json
+  s_f8c9fe493cca5b::t_fd24c93b40a145 101-102,107-108
+Makefile
+  s_f8c9fe493cca5b::t_fd24c93b40a145 10
+.github/workflows/pypi-release.yml
+  s_f8c9fe493cca5b::t_fd24c93b40a145 30-31,37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7308dd0355108fd66f748ad3fc666e4175b252d9",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
