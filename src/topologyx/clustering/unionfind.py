@@ -1,7 +1,5 @@
 from typing import Any
 
-# Credits to https://code.activestate.com/recipes/215912-union-find-data-structure/
-
 
 class UnionFind:
     def __init__(self) -> None:

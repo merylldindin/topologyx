@@ -59,6 +59,8 @@ Read more about applied TDA:
 - [Gudhi](https://gudhi.inria.fr/)
 - [Keras](https://keras.io/)
 
+The union-find behind ToMaTo clustering follows the [ActiveState union-find recipe](https://code.activestate.com/recipes/215912-union-find-data-structure/).
+
 ## Get Started
 
 ```bash
