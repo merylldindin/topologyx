@@ -1,0 +1,19 @@
+src/topologyx/filtrations/__init__.py
+  s_f8c9fe493cca5b::t_11006a4094f9e6 47-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "637ea5e8843f2f5dbdd3107e692dcb6b9d825136",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "unknown"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
