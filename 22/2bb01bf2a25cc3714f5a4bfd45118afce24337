@@ -1,0 +1,25 @@
+.pre-commit-config.yaml
+  s_f8c9fe493cca5b::t_c10683e1d53956 21,32
+CLAUDE.md
+  s_f8c9fe493cca5b::t_c10683e1d53956 80
+pyproject.toml
+  s_f8c9fe493cca5b::t_c10683e1d53956 46
+renovate.json
+  s_f8c9fe493cca5b::t_81a2bf5d436fa3 16-18,46,64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "222bb01bf2a25cc3714f5a4bfd45118afce24337",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
