@@ -44,8 +44,9 @@ class Filtration:
         self.kd_tree = KDTree(self.vector, leaf_size=leaf_size, metric="euclidean")
 
         if use_alpha:
-            self.simplex = AlphaComplex(points=self.vector.tolist())
-            self.simplex = self.simplex.create_simplex_tree(max_alpha_square=250.0)
+            self.simplex = AlphaComplex(
+                points=self.vector.tolist()
+            ).create_simplex_tree(max_alpha_square=250.0)
 
         else:
             self.simplex = gudhi.SimplexTree()
