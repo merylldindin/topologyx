@@ -4,7 +4,7 @@ Topological Data Analysis library — filtrations, persistence descriptors, ToMa
 
 ## Stack
 
-Python is bounded to `>=3.13,<3.15`: 3.13 and 3.14 are supported, and CI runs the full gate on both. Ruff and `ty` target 3.13, the floor, so code using a 3.14-only feature fails the gate. uv for packaging, Gudhi for simplicial complexes and persistence, scikit-learn for neighbours and decomposition, NumPy throughout, Keras for the channel layers, Matplotlib for the plotting helpers, Marimo for the examples.
+Python is bounded to `>=3.13,<3.15`: 3.13 and 3.14 are supported, and CI runs the full gate on both. Ruff and `ty` target 3.13, the floor, so code using a 3.14-only feature fails the gate. uv for packaging, Gudhi for simplicial complexes and persistence, scikit-learn for neighbours and decomposition, NumPy throughout, Keras on the JAX backend for the channel layers, Matplotlib for the plotting helpers, Marimo for the examples.
 
 `scipy.stats.gaussian_kde` is imported by `clustering/` but SciPy is not a declared dependency — it arrives transitively through scikit-learn. Treat that as a latent break, not a licence to add more undeclared imports.
 
@@ -19,7 +19,7 @@ Three subpackages under `src/topologyx/`, and the unusual part is that **each `_
 Two constraints that shape the code:
 
 - **Gudhi ships no type stubs.** Every `gudhi.SimplexTree()` and `gudhi.AlphaComplex()` construction carries `# type: ignore`, and `SimplexTreeProtocol` in `filtrations/__init__.py` exists to give the returned object a typed interface. Extend that Protocol rather than widening a signature to `Any`.
-- **Importing `topologyx.channels` pulls Keras and a configured backend.** The other two subpackages do not, so keep Keras imports out of them.
+- **Importing `topologyx.channels` pulls Keras and JAX.** `channels/__init__.py` sets `KERAS_BACKEND` to `jax` with `os.environ.setdefault` before importing Keras, so a caller's explicit backend still wins. JAX is a declared dependency because TensorFlow, the Keras default, publishes no Python 3.14 wheels. The other two subpackages import neither, so keep Keras imports out of them.
 
 `Filtration` built with `use_alpha=False` handles 1D, 2D and 3D input only and raises `ValueError` beyond that; the alpha-complex path has no such ceiling.
 

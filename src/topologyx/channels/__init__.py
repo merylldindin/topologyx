@@ -1,4 +1,7 @@
+import os
 from typing import Any
+
+os.environ.setdefault("KERAS_BACKEND", "jax")
 
 from keras import layers
 
