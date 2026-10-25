@@ -22,7 +22,7 @@ class SilhouetteLayer(layers.Layer):
     def call(self, inputs: Any) -> Any:
         return ops.reshape(
             ops.sum(ops.dot(self.kernel, inputs), axis=0),
-            (-1, inputs.get_shape()[-1], 1),
+            (-1, inputs.shape[-1], 1),
         )
 
     def compute_output_shape(self, _: Any) -> tuple[None, int, int]:

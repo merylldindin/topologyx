@@ -1,5 +1,9 @@
+import os
+
 import numpy as np
 import pytest
+
+os.environ.setdefault("KERAS_BACKEND", "jax")
 
 from topologyx.clustering import ClusterGenerator, ClusterStructure
 

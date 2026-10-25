@@ -9,7 +9,7 @@ from topologyx.channels.silhouette import SilhouetteLayer
 
 
 def betti_channel(input: Any, args: dict[str, Any], dropout: float = 0.3) -> Any:
-    channel = layers.Reshape((input._keras_shape[1], 1))(input)
+    channel = layers.Reshape((input.shape[1], 1))(input)
     channel = layers.Conv1D(64, 10, **args)(channel)
     channel = layers.PReLU()(channel)
     channel = layers.Dropout(dropout)(channel)
@@ -26,7 +26,7 @@ def betti_channel(input: Any, args: dict[str, Any], dropout: float = 0.3) -> Any
 
 
 def silhouette_channel(input: Any, args: dict[str, Any], dropout: float = 0.3) -> Any:
-    channel = SilhouetteLayer(int(input._keras_shape[-1]))(input)
+    channel = SilhouetteLayer(int(input.shape[-1]))(input)
 
     channel = layers.Conv1D(64, 10, **args)(channel)
     channel = layers.PReLU()(channel)

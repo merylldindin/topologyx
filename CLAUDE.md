@@ -19,7 +19,7 @@ Three subpackages under `src/topologyx/`, and the unusual part is that **each `_
 Two constraints that shape the code:
 
 - **Gudhi ships no type stubs.** Every `gudhi.SimplexTree()` and `gudhi.AlphaComplex()` construction carries `# type: ignore`, and `SimplexTreeProtocol` in `filtrations/__init__.py` exists to give the returned object a typed interface. Extend that Protocol rather than widening a signature to `Any`.
-- **Importing `topologyx.channels` pulls Keras and JAX.** `channels/__init__.py` sets `KERAS_BACKEND` to `jax` with `os.environ.setdefault` before importing Keras, so a caller's explicit backend still wins. JAX is a declared dependency because TensorFlow, the Keras default, publishes no Python 3.14 wheels. The other two subpackages import neither, so keep Keras imports out of them.
+- **Importing `topologyx.channels` pulls Keras and JAX.** `channels/__init__.py` sets `KERAS_BACKEND` to `jax` with `os.environ.setdefault` before importing Keras, so a caller's explicit backend still wins, and a caller who imports `keras` first without setting it gets the TensorFlow default and fails. `tests/conftest.py` sets the same default for that reason. JAX is a declared dependency because TensorFlow, the Keras default, publishes no Python 3.14 wheels. The other two subpackages import neither, so keep Keras imports out of them.
 
 `Filtration` built with `use_alpha=False` handles 1D, 2D and 3D input only and raises `ValueError` beyond that; the alpha-complex path has no such ceiling.
 
