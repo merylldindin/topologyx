@@ -1,0 +1,26 @@
+tests/test_channel_backend.py
+  s_f8c9fe493cca5b::t_7ccd338a1e8bd5 1,3-36,38-46,48-57,59-68,70-80,82-91
+  s_f8c9fe493cca5b::t_cc08e6cec3f846 2,37,47,58,69,81,92
+src/topologyx/channels/backend.py
+  s_f8c9fe493cca5b::t_8c2c8d479dbc1a 1-28
+CLAUDE.md
+  s_f8c9fe493cca5b::t_79839a547d9a1f 22
+src/topologyx/channels/__init__.py
+  s_f8c9fe493cca5b::t_4e00cb9eff34a3 3-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "04a7716eecee76decbd2f5f2d2c254a75cfff22c",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
