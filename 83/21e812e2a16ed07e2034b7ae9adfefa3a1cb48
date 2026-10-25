@@ -1,0 +1,35 @@
+.github/workflows/continuous-integration.yml
+  s_f8c9fe493cca5b::t_cf536e9eb33bac 14-17,21,34,52
+CLAUDE.md
+  s_c9629c8ccddca4::t_ecf685528b2263 7
+CONTRIBUTING.md
+  s_c9629c8ccddca4::t_a28c3809f26cfc 74
+pyproject.toml
+  s_c9629c8ccddca4::t_9fe75cf5fc3e6f 8,14
+uv.lock
+  s_f8c9fe493cca5b::t_05c31075ad6ba3 3-7,63-86,125-161,252-274,302-335,410-425,437-439,468-483,601-633,656-669,749-783,810-823,849-858,877-897,944-964,1001-1025,1064-1084,1158-1163,1294-1311,1336-1347,1419-1430,1452-1471,1670-1677,1707-1746,1767-1788
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8321e812e2a16ed07e2034b7ae9adfefa3a1cb48",
+  "prompts": {},
+  "sessions": {
+    "s_c9629c8ccddca4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73a1564f-599e-4de0-91c8-fb20f1202a1e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    },
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
