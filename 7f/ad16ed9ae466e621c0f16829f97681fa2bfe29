@@ -1,0 +1,23 @@
+CLAUDE.md
+  s_f8c9fe493cca5b::t_b18347413ada4b 22
+src/topologyx/channels/backend.py
+  s_f8c9fe493cca5b::t_b18347413ada4b 11-20,23
+tests/test_channel_backend.py
+  s_f8c9fe493cca5b::t_9f868a931952d0 93-120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7fad16ed9ae466e621c0f16829f97681fa2bfe29",
+  "prompts": {},
+  "sessions": {
+    "s_f8c9fe493cca5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48076427-062f-4e6e-867b-6a5fdbb00620",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Meryll Dindin <merylldin@gmail.com>"
+    }
+  }
+}
