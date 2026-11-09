@@ -33,15 +33,15 @@ Repository = "https://github.com/merylldindin/topologyx"
 dev = [
     "commitizen==4.19.3",
     "pre-commit==4.7.0",
-    "pytest==9.1.1",
+    "pytest==9.2.0",
     "pytest-cov==7.1.0",
-    "ruff==0.17.2",
-    "ty==0.0.92",
+    "ruff==0.17.3",
+    "ty==0.0.95",
     "marimo==0.25.2",
 ]
 
 [build-system]
-requires = ["hatchling==1.32.4"]
+requires = ["hatchling==1.33.0"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
